@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { sendToTelegram } from '../utils/telegram';
 
 // ============================================
 // ИКОНКИ
@@ -1045,7 +1044,16 @@ function BonusSection({ results, answers }) {
         email: email.trim() || 'Не указан'
       };
 
-      await sendToTelegram(contactData, answers, results);
+      const response = await fetch('/api/telegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contactData, answers, results })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Ошибка отправки');
+      }
 
       setSubmitStatus('success');
       setName('');
