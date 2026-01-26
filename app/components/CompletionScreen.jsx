@@ -1,6 +1,15 @@
 'use client';
+import { useState, useEffect } from 'react';
 
 export function CompletionScreen({ onViewResults }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 900);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   return (
     <div style={{
       minHeight: '100vh',
@@ -9,7 +18,7 @@ export function CompletionScreen({ onViewResults }) {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '40px 20px',
+      padding: isMobile ? '30px 20px' : '40px 20px',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -44,8 +53,8 @@ export function CompletionScreen({ onViewResults }) {
       }}>
         {/* Кубок */}
         <div style={{
-          fontSize: '80px',
-          marginBottom: '24px',
+          fontSize: isMobile ? '64px' : '80px',
+          marginBottom: isMobile ? '20px' : '24px',
           animation: 'pulse 2s ease-in-out infinite'
         }}>
           🏆
@@ -53,7 +62,7 @@ export function CompletionScreen({ onViewResults }) {
 
         {/* Заголовок */}
         <h1 style={{
-          fontSize: '32px',
+          fontSize: isMobile ? '28px' : '32px',
           fontWeight: 800,
           color: '#fff',
           marginBottom: '16px',
@@ -64,7 +73,7 @@ export function CompletionScreen({ onViewResults }) {
 
         {/* Подзаголовок */}
         <p style={{
-          fontSize: '18px',
+          fontSize: isMobile ? '16px' : '18px',
           color: '#22c55e',
           fontWeight: 600,
           marginBottom: '12px'
@@ -75,14 +84,14 @@ export function CompletionScreen({ onViewResults }) {
         {/* Ранг */}
         <div style={{
           display: 'inline-block',
-          padding: '12px 24px',
+          padding: isMobile ? '10px 20px' : '12px 24px',
           background: 'linear-gradient(135deg, rgba(255,215,0,0.2) 0%, rgba(255,215,0,0.1) 100%)',
           border: '1px solid rgba(255,215,0,0.3)',
           borderRadius: '100px',
-          marginBottom: '24px'
+          marginBottom: isMobile ? '20px' : '24px'
         }}>
           <span style={{
-            fontSize: '16px',
+            fontSize: isMobile ? '14px' : '16px',
             color: '#ffd700',
             fontWeight: 600
           }}>
@@ -92,12 +101,12 @@ export function CompletionScreen({ onViewResults }) {
 
         {/* Описание */}
         <p style={{
-          fontSize: '15px',
+          fontSize: isMobile ? '14px' : '15px',
           color: 'rgba(255,255,255,0.7)',
           lineHeight: 1.6,
-          marginBottom: '32px'
+          marginBottom: isMobile ? '28px' : '32px'
         }}>
-          Вы вошли в 36% тех, кто не сдался и прошёл диагностику до конца. 
+          Вы вошли в 36% тех, кто не сдался и прошёл диагностику до конца.
           Теперь вы можете увидеть детальный анализ вашего маркетинга.
         </p>
 
@@ -105,8 +114,9 @@ export function CompletionScreen({ onViewResults }) {
         <button
           onClick={onViewResults}
           style={{
-            padding: '16px 48px',
-            fontSize: '16px',
+            minHeight: '44px',
+            padding: isMobile ? '14px 36px' : '16px 48px',
+            fontSize: isMobile ? '15px' : '16px',
             fontWeight: 700,
             color: '#000',
             background: 'linear-gradient(135deg, #ffd700 0%, #ffed4a 100%)',

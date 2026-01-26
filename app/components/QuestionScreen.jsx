@@ -1,8 +1,16 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ProgressBar, MotivationalMessage, CheckpointMessage } from './ProgressBar';
 
 export function DiagnosticQuestion({ question, questionNumber, totalQuestions, onAnswer, reachedCheckpoint }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 900);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   return (
     <div style={{ 
       minHeight: 'var(--app-height, 100vh)', 
@@ -78,24 +86,25 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
         </div>
 
         {/* Кнопки — прижаты к низу */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '16px',
+        <div style={{
+          display: 'flex',
+          gap: isMobile ? '12px' : '16px',
           flexDirection: 'row',
           flexWrap: 'wrap'
         }}>
-          <button 
-            onClick={() => onAnswer(true)} 
-            style={{ 
+          <button
+            onClick={() => onAnswer(true)}
+            style={{
               flex: '1 1 45%',
-              minWidth: '140px',
-              padding: '20px 16px', 
-              fontSize: '18px', 
-              fontWeight: 600, 
-              background: 'rgba(34, 197, 94, 0.1)', 
-              border: '2px solid #22c55e', 
-              borderRadius: '12px', 
-              color: '#22c55e', 
+              minWidth: isMobile ? '120px' : '140px',
+              minHeight: '44px',
+              padding: isMobile ? '16px 12px' : '20px 16px',
+              fontSize: isMobile ? '16px' : '18px',
+              fontWeight: 600,
+              background: 'rgba(34, 197, 94, 0.1)',
+              border: '2px solid #22c55e',
+              borderRadius: '12px',
+              color: '#22c55e',
               cursor: 'pointer',
               fontFamily: 'inherit',
               transition: 'all 0.2s ease'
@@ -109,18 +118,19 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
           >
             ✓ Да
           </button>
-          <button 
-            onClick={() => onAnswer(false)} 
-            style={{ 
+          <button
+            onClick={() => onAnswer(false)}
+            style={{
               flex: '1 1 45%',
-              minWidth: '140px',
-              padding: '20px 16px', 
-              fontSize: '18px', 
-              fontWeight: 600, 
-              background: 'rgba(239, 68, 68, 0.1)', 
-              border: '2px solid #ef4444', 
-              borderRadius: '12px', 
-              color: '#ef4444', 
+              minWidth: isMobile ? '120px' : '140px',
+              minHeight: '44px',
+              padding: isMobile ? '16px 12px' : '20px 16px',
+              fontSize: isMobile ? '16px' : '18px',
+              fontWeight: 600,
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '2px solid #ef4444',
+              borderRadius: '12px',
+              color: '#ef4444',
               cursor: 'pointer',
               fontFamily: 'inherit',
               transition: 'all 0.2s ease'
@@ -144,6 +154,14 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
   const [textAnswer, setTextAnswer] = useState('');
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [customOption, setCustomOption] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 900);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleSubmit = () => {
     if (question.type === 'text') {
@@ -252,43 +270,44 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
             value={textAnswer}
             onChange={(e) => setTextAnswer(e.target.value)}
             placeholder={question.placeholder}
-            style={{ 
-              width: '100%', 
-              minHeight: '120px', 
-              padding: '16px 20px', 
-              fontSize: '16px', 
-              background: 'rgba(255,255,255,0.05)', 
-              border: '1px solid rgba(255,255,255,0.1)', 
-              borderRadius: '12px', 
-              color: '#fff', 
-              outline: 'none', 
-              fontFamily: 'inherit', 
-              resize: 'vertical', 
-              marginBottom: '24px', 
-              boxSizing: 'border-box' 
+            style={{
+              width: '100%',
+              minHeight: isMobile ? '100px' : '120px',
+              padding: isMobile ? '14px 16px' : '16px 20px',
+              fontSize: '16px',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '12px',
+              color: '#fff',
+              outline: 'none',
+              fontFamily: 'inherit',
+              resize: 'vertical',
+              marginBottom: '24px',
+              boxSizing: 'border-box'
             }}
           />
         )}
 
         {(question.type === 'select' || question.type === 'multiselect') && (
-          <div style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            gap: '10px', 
-            marginBottom: '24px' 
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: isMobile ? '8px' : '10px',
+            marginBottom: '24px'
           }}>
             {question.options.map((option, idx) => (
               <button
                 key={idx}
                 onClick={() => toggleOption(option)}
-                style={{ 
-                  padding: '14px 18px', 
-                  fontSize: '14px', 
-                  background: selectedOptions.includes(option) ? 'rgba(66, 153, 225, 0.2)' : 'rgba(255,255,255,0.05)', 
-                  border: `2px solid ${selectedOptions.includes(option) ? '#4299e1' : 'rgba(255,255,255,0.1)'}`, 
-                  borderRadius: '10px', 
-                  color: '#fff', 
-                  cursor: 'pointer', 
+                style={{
+                  minHeight: '44px',
+                  padding: isMobile ? '12px 16px' : '14px 18px',
+                  fontSize: isMobile ? '14px' : '14px',
+                  background: selectedOptions.includes(option) ? 'rgba(66, 153, 225, 0.2)' : 'rgba(255,255,255,0.05)',
+                  border: `2px solid ${selectedOptions.includes(option) ? '#4299e1' : 'rgba(255,255,255,0.1)'}`,
+                  borderRadius: '10px',
+                  color: '#fff',
+                  cursor: 'pointer',
                   textAlign: 'left',
                   fontFamily: 'inherit',
                   transition: 'all 0.2s ease'
@@ -303,16 +322,17 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
                 value={customOption}
                 onChange={(e) => setCustomOption(e.target.value)}
                 placeholder="Напишите свой вариант..."
-                style={{ 
-                  padding: '14px 18px', 
-                  fontSize: '14px', 
-                  background: 'rgba(255,255,255,0.05)', 
-                  border: '1px solid rgba(255,255,255,0.1)', 
-                  borderRadius: '10px', 
-                  color: '#fff', 
-                  outline: 'none', 
-                  fontFamily: 'inherit', 
-                  boxSizing: 'border-box' 
+                style={{
+                  minHeight: '44px',
+                  padding: isMobile ? '12px 16px' : '14px 18px',
+                  fontSize: '14px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '10px',
+                  color: '#fff',
+                  outline: 'none',
+                  fontFamily: 'inherit',
+                  boxSizing: 'border-box'
                 }}
               />
             )}
@@ -331,15 +351,16 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
         <button
           onClick={handleSubmit}
           disabled={!canSubmit()}
-          style={{ 
-            width: '100%', 
-            padding: '18px', 
-            fontSize: '16px', 
-            fontWeight: 600, 
-            background: canSubmit() ? '#4299e1' : '#333', 
-            color: '#fff', 
-            border: 'none', 
-            borderRadius: '12px', 
+          style={{
+            width: '100%',
+            minHeight: '44px',
+            padding: isMobile ? '14px 16px' : '18px',
+            fontSize: isMobile ? '15px' : '16px',
+            fontWeight: 600,
+            background: canSubmit() ? '#4299e1' : '#333',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '12px',
             cursor: canSubmit() ? 'pointer' : 'not-allowed',
             fontFamily: 'inherit',
             transition: 'all 0.2s ease',
