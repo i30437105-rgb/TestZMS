@@ -112,7 +112,18 @@ export function CompletionScreen({ onViewResults }) {
 
         {/* Кнопка */}
         <button
-          onClick={onViewResults}
+          onClick={(e) => {
+            e.currentTarget.blur();
+            onViewResults();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.currentTarget.blur();
+              onViewResults();
+            }
+          }}
+          aria-label="Смотреть результаты теста"
           style={{
             minHeight: '44px',
             padding: isMobile ? '14px 36px' : '16px 48px',
@@ -125,7 +136,8 @@ export function CompletionScreen({ onViewResults }) {
             cursor: 'pointer',
             fontFamily: 'inherit',
             transition: 'all 0.3s ease',
-            boxShadow: '0 4px 20px rgba(255,215,0,0.3)'
+            boxShadow: '0 4px 20px rgba(255,215,0,0.3)',
+            outline: 'none'
           }}
           onMouseOver={(e) => {
             e.target.style.transform = 'translateY(-2px)';
@@ -134,6 +146,13 @@ export function CompletionScreen({ onViewResults }) {
           onMouseOut={(e) => {
             e.target.style.transform = 'translateY(0)';
             e.target.style.boxShadow = '0 4px 20px rgba(255,215,0,0.3)';
+          }}
+          onFocus={(e) => {
+            e.target.style.outline = '3px solid #ffd700';
+            e.target.style.outlineOffset = '2px';
+          }}
+          onBlur={(e) => {
+            e.target.style.outline = 'none';
           }}
         >
           Смотреть результаты

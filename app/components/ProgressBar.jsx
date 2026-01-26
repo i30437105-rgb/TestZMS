@@ -38,7 +38,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
   };
 
   return (
-    <div style={{ paddingTop: '16px' }}>
+    <div style={{ paddingTop: '16px' }} role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin="0" aria-valuemax="100" aria-label={`Прогресс теста: ${Math.round(progress)} процентов`}>
       {/* Иконки и прогресс-бар */}
       <div style={{ position: 'relative', height: '70px', marginBottom: '12px' }}>
         
@@ -150,7 +150,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
       </div>
 
       {/* Строка 1: процент и номер вопроса */}
-      <div style={{ fontSize: '13px', color: '#888', textAlign: 'left', marginBottom: '4px' }}>
+      <div style={{ fontSize: '13px', color: '#949494', textAlign: 'left', marginBottom: '4px' }}>
         <span style={{ color: '#fff', fontWeight: 600 }}>{Math.round(progress)}%</span> пройдено • Вопрос {currentQuestion} из {totalQuestions}
       </div>
 
@@ -171,7 +171,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
           Ещё ответ до рубежа Стойкий основатель
         </div>
       ) : currentCheckpoint && (
-        <div style={{ fontSize: '13px', color: '#888', textAlign: 'left', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
+        <div style={{ fontSize: '13px', color: '#949494', textAlign: 'left', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
           <span>Текущий уровень:</span>
           <img src={iconPaths[currentCheckpoint.title]} alt="" style={{ width: '16px', height: '16px', verticalAlign: 'middle' }} />
           <span style={{ color: '#22c55e' }}>{currentCheckpoint.title}</span>

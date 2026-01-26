@@ -64,11 +64,11 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
       }}>
         {/* Секция и вопрос */}
         <div style={{ flex: 1 }}>
-          <div style={{ 
-            fontFamily: 'monospace', 
-            fontSize: '11px', 
-            color: '#666', 
-            letterSpacing: '1px', 
+          <div style={{
+            fontFamily: 'monospace',
+            fontSize: '11px',
+            color: '#949494',
+            letterSpacing: '1px',
             marginBottom: '12px',
             textTransform: 'uppercase'
           }}>
@@ -93,7 +93,18 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
           flexWrap: 'wrap'
         }}>
           <button
-            onClick={() => onAnswer(true)}
+            onClick={(e) => {
+              e.currentTarget.blur();
+              onAnswer(true);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.currentTarget.blur();
+                onAnswer(true);
+              }
+            }}
+            aria-label="Ответить Да"
             style={{
               flex: '1 1 45%',
               minWidth: isMobile ? '120px' : '140px',
@@ -107,7 +118,8 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
               color: '#22c55e',
               cursor: 'pointer',
               fontFamily: 'inherit',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              outline: 'none'
             }}
             onMouseOver={(e) => {
               e.target.style.background = 'rgba(34, 197, 94, 0.2)';
@@ -115,11 +127,29 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
             onMouseOut={(e) => {
               e.target.style.background = 'rgba(34, 197, 94, 0.1)';
             }}
+            onFocus={(e) => {
+              e.target.style.outline = '3px solid #22c55e';
+              e.target.style.outlineOffset = '2px';
+            }}
+            onBlur={(e) => {
+              e.target.style.outline = 'none';
+            }}
           >
             ✓ Да
           </button>
           <button
-            onClick={() => onAnswer(false)}
+            onClick={(e) => {
+              e.currentTarget.blur();
+              onAnswer(false);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.currentTarget.blur();
+                onAnswer(false);
+              }
+            }}
+            aria-label="Ответить Нет"
             style={{
               flex: '1 1 45%',
               minWidth: isMobile ? '120px' : '140px',
@@ -133,13 +163,21 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
               color: '#ef4444',
               cursor: 'pointer',
               fontFamily: 'inherit',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              outline: 'none'
             }}
             onMouseOver={(e) => {
               e.target.style.background = 'rgba(239, 68, 68, 0.2)';
             }}
             onMouseOut={(e) => {
               e.target.style.background = 'rgba(239, 68, 68, 0.1)';
+            }}
+            onFocus={(e) => {
+              e.target.style.outline = '3px solid #ef4444';
+              e.target.style.outlineOffset = '2px';
+            }}
+            onBlur={(e) => {
+              e.target.style.outline = 'none';
             }}
           >
             ✗ Нет
@@ -245,11 +283,11 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
         width: '100%',
         boxSizing: 'border-box'
       }}>
-        <div style={{ 
-          fontFamily: 'monospace', 
-          fontSize: '11px', 
-          color: '#666', 
-          letterSpacing: '1px', 
+        <div style={{
+          fontFamily: 'monospace',
+          fontSize: '11px',
+          color: '#949494',
+          letterSpacing: '1px',
           marginBottom: '12px',
           textTransform: 'uppercase'
         }}>
@@ -298,7 +336,19 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
             {question.options.map((option, idx) => (
               <button
                 key={idx}
-                onClick={() => toggleOption(option)}
+                onClick={(e) => {
+                  e.currentTarget.blur();
+                  toggleOption(option);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.currentTarget.blur();
+                    toggleOption(option);
+                  }
+                }}
+                aria-label={`Выбрать вариант: ${option}`}
+                aria-pressed={selectedOptions.includes(option)}
                 style={{
                   minHeight: '44px',
                   padding: isMobile ? '12px 16px' : '14px 18px',
@@ -310,7 +360,15 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
                   cursor: 'pointer',
                   textAlign: 'left',
                   fontFamily: 'inherit',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
+                  outline: 'none'
+                }}
+                onFocus={(e) => {
+                  e.target.style.outline = '3px solid #4299e1';
+                  e.target.style.outlineOffset = '2px';
+                }}
+                onBlur={(e) => {
+                  e.target.style.outline = 'none';
                 }}
               >
                 {option}
@@ -337,10 +395,10 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
               />
             )}
             {question.type === 'multiselect' && (
-              <p style={{ 
-                fontSize: '12px', 
-                color: '#666', 
-                margin: '4px 0 0' 
+              <p style={{
+                fontSize: '12px',
+                color: '#949494',
+                margin: '4px 0 0'
               }}>
                 Выбрано: {selectedOptions.length}/3
               </p>
@@ -349,8 +407,19 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
         )}
 
         <button
-          onClick={handleSubmit}
+          onClick={(e) => {
+            e.currentTarget.blur();
+            handleSubmit();
+          }}
+          onKeyDown={(e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && canSubmit()) {
+              e.preventDefault();
+              e.currentTarget.blur();
+              handleSubmit();
+            }
+          }}
           disabled={!canSubmit()}
+          aria-label="Продолжить к следующему вопросу"
           style={{
             width: '100%',
             minHeight: '44px',
@@ -364,7 +433,17 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
             cursor: canSubmit() ? 'pointer' : 'not-allowed',
             fontFamily: 'inherit',
             transition: 'all 0.2s ease',
-            marginTop: 'auto'
+            marginTop: 'auto',
+            outline: 'none'
+          }}
+          onFocus={(e) => {
+            if (canSubmit()) {
+              e.target.style.outline = '3px solid #4299e1';
+              e.target.style.outlineOffset = '2px';
+            }
+          }}
+          onBlur={(e) => {
+            e.target.style.outline = 'none';
           }}
         >
           Продолжить →

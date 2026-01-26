@@ -89,7 +89,7 @@ export function StartScreen({ onStart }) {
         {/* Дескриптор */}
         <p style={{
           fontSize: isMobile ? '14px' : '15px',
-          color: '#888',
+          color: '#949494',
           marginBottom: '24px',
           lineHeight: 1.6,
           maxWidth: '440px',
@@ -185,7 +185,18 @@ export function StartScreen({ onStart }) {
 
         {/* Кнопка */}
         <button
-          onClick={onStart}
+          onClick={(e) => {
+            e.currentTarget.blur();
+            onStart();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.currentTarget.blur();
+              onStart();
+            }
+          }}
+          aria-label="Начать аудит маркетинга"
           style={{
             minHeight: '44px',
             padding: isMobile ? '14px 36px' : '18px 48px',
@@ -198,7 +209,8 @@ export function StartScreen({ onStart }) {
             cursor: 'pointer',
             fontFamily: 'inherit',
             transition: 'all 0.3s ease',
-            boxShadow: '0 4px 20px rgba(34, 197, 94, 0.3)'
+            boxShadow: '0 4px 20px rgba(34, 197, 94, 0.3)',
+            outline: 'none'
           }}
           onMouseOver={(e) => {
             e.target.style.transform = 'translateY(-2px)';
@@ -207,6 +219,13 @@ export function StartScreen({ onStart }) {
           onMouseOut={(e) => {
             e.target.style.transform = 'translateY(0)';
             e.target.style.boxShadow = '0 4px 20px rgba(34, 197, 94, 0.3)';
+          }}
+          onFocus={(e) => {
+            e.target.style.outline = '3px solid #22c55e';
+            e.target.style.outlineOffset = '2px';
+          }}
+          onBlur={(e) => {
+            e.target.style.outline = 'none';
           }}
         >
           Начать аудит →

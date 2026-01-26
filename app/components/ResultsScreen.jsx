@@ -103,24 +103,32 @@ function generateTrophyTooltip(blocks, sectionName) {
 function ResultBlock({ block, isSelected, onClick, isExpanded }) {
   const isSuccess = block.status === 'success';
   const isError = block.status === 'error';
-  
-  const bgColor = isSuccess 
+
+  const bgColor = isSuccess
     ? (isSelected ? '#bbf7d0' : '#dcfce7')
-    : isError 
+    : isError
       ? (isSelected ? '#fecaca' : '#fee2e2')
       : '#e5e5e5';
-  
+
   const borderColor = isSuccess
     ? (isSelected ? '#22c55e' : '#86efac')
     : isError
       ? (isSelected ? '#ef4444' : '#fca5a5')
       : '#d4d4d4';
-  
+
   const textColor = isSuccess ? '#166534' : isError ? '#991b1b' : '#525252';
-  
+
   return (
     <button
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      aria-label={`${block.title} - ${isSuccess ? 'Зеленая зона' : 'Красная зона'}. Нажмите для просмотра рекомендации`}
+      aria-pressed={isSelected}
       style={{
         width: '100%',
         padding: '14px 16px',
@@ -132,11 +140,19 @@ function ResultBlock({ block, isSelected, onClick, isExpanded }) {
         textAlign: 'center',
         fontFamily: 'inherit',
         transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-        boxShadow: isSelected 
-          ? `0 4px 12px ${isSuccess ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}` 
+        boxShadow: isSelected
+          ? `0 4px 12px ${isSuccess ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}`
           : '0 2px 4px rgba(0,0,0,0.08)',
         position: 'relative',
-        zIndex: 1
+        zIndex: 1,
+        outline: 'none'
+      }}
+      onFocus={(e) => {
+        e.target.style.outline = `3px solid ${isSuccess ? '#22c55e' : '#ef4444'}`;
+        e.target.style.outlineOffset = '2px';
+      }}
+      onBlur={(e) => {
+        e.target.style.outline = 'none';
       }}
     >
       <div style={{
@@ -170,6 +186,13 @@ function BlockDetail({ block, onClose }) {
     }}>
       <button
         onClick={onClose}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClose();
+          }
+        }}
+        aria-label="Закрыть рекомендацию"
         style={{
           position: 'absolute',
           top: '8px',
@@ -177,8 +200,16 @@ function BlockDetail({ block, onClose }) {
           background: 'transparent',
           border: 'none',
           cursor: 'pointer',
-          color: '#888',
-          padding: '4px'
+          color: '#949494',
+          padding: '4px',
+          outline: 'none'
+        }}
+        onFocus={(e) => {
+          e.target.style.outline = '2px solid #4299e1';
+          e.target.style.outlineOffset = '2px';
+        }}
+        onBlur={(e) => {
+          e.target.style.outline = 'none';
         }}
       >
         <CloseIcon />
@@ -240,6 +271,13 @@ function DesktopDetailPanel({ block, onClose }) {
     }}>
       <button
         onClick={onClose}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClose();
+          }
+        }}
+        aria-label="Закрыть панель с деталями"
         style={{
           position: 'absolute',
           top: '12px',
@@ -250,10 +288,18 @@ function DesktopDetailPanel({ block, onClose }) {
           width: '28px',
           height: '28px',
           cursor: 'pointer',
-          color: '#666',
+          color: '#949494',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          outline: 'none'
+        }}
+        onFocus={(e) => {
+          e.target.style.outline = '2px solid #4299e1';
+          e.target.style.outlineOffset = '2px';
+        }}
+        onBlur={(e) => {
+          e.target.style.outline = 'none';
         }}
       >
         <CloseIcon />
@@ -850,7 +896,7 @@ function PersonalRecommendations({ results }) {
           </h2>
           <p style={{
             fontSize: '13px',
-            color: '#888',
+            color: '#949494',
             margin: '4px 0 0 0'
           }}>
             На основе результатов вашего аудита
@@ -949,7 +995,7 @@ function PersonalRecommendations({ results }) {
                   </div>
                   <div style={{
                     fontSize: '11px',
-                    color: '#888',
+                    color: '#949494',
                     marginTop: '2px'
                   }}>
                     {block.sectionName} · Уровень {block.level}
@@ -960,7 +1006,7 @@ function PersonalRecommendations({ results }) {
             {allRedBlocks.length > 5 && (
               <div style={{
                 fontSize: '12px',
-                color: '#888',
+                color: '#949494',
                 textAlign: 'center',
                 padding: '8px'
               }}>
@@ -1187,7 +1233,9 @@ function BonusSection({ results, answers }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <div>
+          <label htmlFor="bonus-name" style={{ display: 'none' }}>Введите ваше имя</label>
           <input
+            id="bonus-name"
             type="text"
             placeholder="Имя *"
             value={name}
@@ -1195,6 +1243,9 @@ function BonusSection({ results, answers }) {
               setName(e.target.value);
               if (errors.name) setErrors({...errors, name: null});
             }}
+            aria-label="Введите ваше имя"
+            aria-required="true"
+            aria-invalid={!!errors.name}
             style={{
               width: '100%',
               padding: '14px 18px',
@@ -1207,16 +1258,25 @@ function BonusSection({ results, answers }) {
               fontFamily: 'inherit',
               boxSizing: 'border-box'
             }}
+            onFocus={(e) => {
+              e.target.style.outline = '2px solid #22c55e';
+              e.target.style.outlineOffset = '2px';
+            }}
+            onBlur={(e) => {
+              e.target.style.outline = 'none';
+            }}
           />
           {errors.name && (
-            <div style={{ fontSize: '12px', color: '#fca5a5', marginTop: '4px' }}>
+            <div style={{ fontSize: '12px', color: '#fca5a5', marginTop: '4px' }} role="alert">
               {errors.name}
             </div>
           )}
         </div>
 
         <div>
+          <label htmlFor="bonus-telegram" style={{ display: 'none' }}>Введите никнейм Telegram</label>
           <input
+            id="bonus-telegram"
             type="text"
             placeholder="Никнейм Telegram *"
             value={telegram}
@@ -1224,6 +1284,9 @@ function BonusSection({ results, answers }) {
               setTelegram(e.target.value);
               if (errors.telegram) setErrors({...errors, telegram: null});
             }}
+            aria-label="Введите никнейм Telegram"
+            aria-required="true"
+            aria-invalid={!!errors.telegram}
             style={{
               width: '100%',
               padding: '14px 18px',
@@ -1236,16 +1299,25 @@ function BonusSection({ results, answers }) {
               fontFamily: 'inherit',
               boxSizing: 'border-box'
             }}
+            onFocus={(e) => {
+              e.target.style.outline = '2px solid #22c55e';
+              e.target.style.outlineOffset = '2px';
+            }}
+            onBlur={(e) => {
+              e.target.style.outline = 'none';
+            }}
           />
           {errors.telegram && (
-            <div style={{ fontSize: '12px', color: '#fca5a5', marginTop: '4px' }}>
+            <div style={{ fontSize: '12px', color: '#fca5a5', marginTop: '4px' }} role="alert">
               {errors.telegram}
             </div>
           )}
         </div>
 
         <div>
+          <label htmlFor="bonus-email" style={{ display: 'none' }}>Введите email (опционально)</label>
           <input
+            id="bonus-email"
             type="email"
             placeholder="Email (опционально)"
             value={email}
@@ -1253,6 +1325,8 @@ function BonusSection({ results, answers }) {
               setEmail(e.target.value);
               if (errors.email) setErrors({...errors, email: null});
             }}
+            aria-label="Введите email (опционально)"
+            aria-invalid={!!errors.email}
             style={{
               width: '100%',
               padding: '14px 18px',
@@ -1265,9 +1339,16 @@ function BonusSection({ results, answers }) {
               fontFamily: 'inherit',
               boxSizing: 'border-box'
             }}
+            onFocus={(e) => {
+              e.target.style.outline = '2px solid #22c55e';
+              e.target.style.outlineOffset = '2px';
+            }}
+            onBlur={(e) => {
+              e.target.style.outline = 'none';
+            }}
           />
           {errors.email && (
-            <div style={{ fontSize: '12px', color: '#fca5a5', marginTop: '4px' }}>
+            <div style={{ fontSize: '12px', color: '#fca5a5', marginTop: '4px' }} role="alert">
               {errors.email}
             </div>
           )}
@@ -1275,7 +1356,15 @@ function BonusSection({ results, answers }) {
 
         <button
           onClick={handleSubmit}
+          onKeyDown={(e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && !isSubmitting && name.trim() && telegram.trim()) {
+              e.preventDefault();
+              handleSubmit();
+            }
+          }}
           disabled={isSubmitting || !name.trim() || !telegram.trim()}
+          aria-label={isSubmitting ? 'Отправка данных' : 'Забрать бонусы'}
+          aria-disabled={isSubmitting || !name.trim() || !telegram.trim()}
           style={{
             padding: '16px',
             fontSize: '16px',
@@ -1290,7 +1379,17 @@ function BonusSection({ results, answers }) {
             fontFamily: 'inherit',
             marginTop: '8px',
             opacity: (isSubmitting || !name.trim() || !telegram.trim()) ? 0.6 : 1,
-            transition: 'all 0.2s'
+            transition: 'all 0.2s',
+            outline: 'none'
+          }}
+          onFocus={(e) => {
+            if (!isSubmitting && name.trim() && telegram.trim()) {
+              e.target.style.outline = '3px solid #22c55e';
+              e.target.style.outlineOffset = '2px';
+            }
+          }}
+          onBlur={(e) => {
+            e.target.style.outline = 'none';
           }}
         >
           {isSubmitting ? 'Отправка...' : 'Забрать бонусы'}
@@ -1322,6 +1421,13 @@ function BonusSection({ results, answers }) {
           }}>
             ❌ Ошибка отправки. <button
               onClick={handleSubmit}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
+              aria-label="Попробовать отправить снова"
               style={{
                 background: 'none',
                 border: 'none',
@@ -1329,7 +1435,15 @@ function BonusSection({ results, answers }) {
                 textDecoration: 'underline',
                 cursor: 'pointer',
                 padding: 0,
-                fontSize: '14px'
+                fontSize: '14px',
+                outline: 'none'
+              }}
+              onFocus={(e) => {
+                e.target.style.outline = '2px solid #fca5a5';
+                e.target.style.outlineOffset = '2px';
+              }}
+              onBlur={(e) => {
+                e.target.style.outline = 'none';
               }}
             >
               Попробовать снова
@@ -1384,6 +1498,13 @@ function PaidAuditSection() {
 
       <button
         onClick={() => alert('Переход к оплате')}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            alert('Переход к оплате');
+          }
+        }}
+        aria-label="Ухватить возможность пройти живой аудит"
         style={{
           padding: '18px 40px',
           fontSize: '16px',
@@ -1394,7 +1515,15 @@ function PaidAuditSection() {
           borderRadius: '12px',
           cursor: 'pointer',
           fontFamily: 'inherit',
-          boxShadow: '0 4px 20px rgba(245, 158, 11, 0.4)'
+          boxShadow: '0 4px 20px rgba(245, 158, 11, 0.4)',
+          outline: 'none'
+        }}
+        onFocus={(e) => {
+          e.target.style.outline = '3px solid #f59e0b';
+          e.target.style.outlineOffset = '2px';
+        }}
+        onBlur={(e) => {
+          e.target.style.outline = 'none';
         }}
       >
         Ухватить возможность
@@ -1434,7 +1563,7 @@ export function ResultsScreen({ results, answers, onRestart }) {
           <div style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: '11px',
-            color: '#888',
+            color: '#949494',
             letterSpacing: '1px',
             marginBottom: '4px'
           }}>
