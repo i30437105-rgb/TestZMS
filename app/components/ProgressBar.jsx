@@ -10,8 +10,8 @@ const iconPaths = {
 };
 
 export function ProgressBar({ currentQuestion, totalQuestions }) {
-  // Прогресс 0% на первом вопросе
-  const progress = ((currentQuestion - 1) / totalQuestions) * 100;
+  // Прогресс от 4% (вопрос 1) до 100% (вопрос 25)
+  const progress = (currentQuestion / totalQuestions) * 100;
   
   // Позиции чекпоинтов на линии (в процентах)
   const checkpointPositions = [
@@ -31,10 +31,10 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
   const nextCheckpoint = checkpoints.find(c => c.question > currentQuestion);
   const questionsToNext = nextCheckpoint ? nextCheckpoint.question - currentQuestion : 0;
 
-  // Проверка активности иконки (рубеж достигнут ПОСЛЕ ответа на вопрос)
+  // Проверка активности иконки (рубеж достигнут на вопросе чекпоинта)
   const isIconActive = (checkpointQuestion) => {
     if (checkpointQuestion === 1) return true; // Флаг всегда активен
-    return currentQuestion > checkpointQuestion;
+    return currentQuestion >= checkpointQuestion;
   };
 
   return (
