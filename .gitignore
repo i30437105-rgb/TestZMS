@@ -42,3 +42,10 @@ next-env.d.ts
 *.swp
 *.swo
 *~
+
+# Stray files
+nul
+*.zip
+
+# Claude
+.claude/

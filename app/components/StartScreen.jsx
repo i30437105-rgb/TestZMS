@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 export function StartScreen({ onStart }) {
   const [isMobile, setIsMobile] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 900);
@@ -12,7 +13,7 @@ export function StartScreen({ onStart }) {
   }, []);
   const icons = [
     '/icons/flag.png',
-    '/icons/bicep.png', 
+    '/icons/bicep.png',
     '/icons/shield.png',
     '/icons/trophy.png'
   ];
@@ -26,7 +27,7 @@ export function StartScreen({ onStart }) {
       alignItems: 'center',
       justifyContent: 'center',
       padding: isMobile ? '30px 20px' : '40px 20px',
-      background: 'linear-gradient(180deg, #0a0a0a 0%, #111 100%)',
+      background: '#f5f5f7',
       position: 'relative',
       overflow: 'hidden',
       boxSizing: 'border-box'
@@ -38,7 +39,7 @@ export function StartScreen({ onStart }) {
         left: isMobile ? '-20%' : '5%',
         width: isMobile ? '200px' : '300px',
         height: isMobile ? '200px' : '300px',
-        background: 'radial-gradient(circle, rgba(34,197,94,0.05) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(200,245,66,0.06) 0%, transparent 70%)',
         borderRadius: '50%',
         filter: 'blur(60px)',
         pointerEvents: 'none'
@@ -49,7 +50,7 @@ export function StartScreen({ onStart }) {
         right: isMobile ? '-20%' : '5%',
         width: isMobile ? '200px' : '350px',
         height: isMobile ? '200px' : '350px',
-        background: 'radial-gradient(circle, rgba(234,179,8,0.05) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(200,245,66,0.04) 0%, transparent 70%)',
         borderRadius: '50%',
         filter: 'blur(80px)',
         pointerEvents: 'none'
@@ -65,33 +66,38 @@ export function StartScreen({ onStart }) {
       }}>
         {/* Лейбл */}
         <div style={{
-          fontFamily: 'monospace',
+          fontFamily: "'Chakra Petch', sans-serif",
           fontSize: isMobile ? '10px' : '12px',
-          color: '#555',
+          color: '#7a7f8a',
           letterSpacing: isMobile ? '2px' : '3px',
           marginBottom: isMobile ? '16px' : '24px',
-          textTransform: 'uppercase'
+          textTransform: 'uppercase',
+          fontWeight: 500
         }}>
           METHOD ZMS
         </div>
 
         {/* Заголовок */}
         <h1 style={{
-          fontSize: 'clamp(24px, 6vw, 42px)',
-          fontWeight: 800,
+          fontFamily: "'Unbounded', sans-serif",
+          fontSize: isMobile ? '28px' : '55px',
+          fontWeight: 600,
           marginBottom: isMobile ? '16px' : '20px',
-          color: '#fff',
-          lineHeight: 1.1
+          color: '#1a1a2e',
+          lineHeight: 1.1,
+          letterSpacing: '-1px'
         }}>
           Краш-тест маркетинга
         </h1>
 
         {/* Дескриптор */}
         <p style={{
-          fontSize: isMobile ? '14px' : '15px',
-          color: '#949494',
+          fontFamily: "'Manrope', sans-serif",
+          fontSize: isMobile ? '14px' : '16px',
+          color: '#7a7f8a',
           marginBottom: '24px',
-          lineHeight: 1.6,
+          lineHeight: 1.5,
+          fontWeight: 400,
           maxWidth: '440px',
           margin: isMobile ? '0 auto 20px' : '0 auto 24px'
         }}>
@@ -132,7 +138,7 @@ export function StartScreen({ onStart }) {
                 <div style={{
                   width: isMobile ? '24px' : '50px',
                   height: '3px',
-                  background: '#333',
+                  background: '#d1d5db',
                   borderRadius: '2px',
                   flexShrink: 0
                 }} />
@@ -142,44 +148,44 @@ export function StartScreen({ onStart }) {
         </div>
 
         {/* Булиты с точками — меньший шрифт */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '8px', 
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
           marginBottom: '28px',
           textAlign: 'left',
           maxWidth: '320px',
           margin: '0 auto 28px'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ 
-              width: '5px', 
-              height: '5px', 
-              borderRadius: '50%', 
-              background: '#555',
+            <span style={{
+              width: '5px',
+              height: '5px',
+              borderRadius: '50%',
+              background: '#d1d5db',
               flexShrink: 0
             }} />
-            <span style={{ fontSize: '11px', color: '#777' }}>25 вопросов по принципу «Да/Нет»</span>
+            <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '12px', color: '#7a7f8a', fontWeight: 400 }}>25 вопросов по принципу «Да/Нет»</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ 
-              width: '5px', 
-              height: '5px', 
-              borderRadius: '50%', 
-              background: '#555',
+            <span style={{
+              width: '5px',
+              height: '5px',
+              borderRadius: '50%',
+              background: '#d1d5db',
               flexShrink: 0
             }} />
-            <span style={{ fontSize: '11px', color: '#777' }}>3 уровня — Стратегия, Лидген, Продажи</span>
+            <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '12px', color: '#7a7f8a', fontWeight: 400 }}>3 уровня — Стратегия, Лидген, Продажи</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ 
-              width: '5px', 
-              height: '5px', 
-              borderRadius: '50%', 
-              background: '#555',
+            <span style={{
+              width: '5px',
+              height: '5px',
+              borderRadius: '50%',
+              background: '#d1d5db',
               flexShrink: 0
             }} />
-            <span style={{ fontSize: '11px', color: '#777' }}>Войдите в 36% тех, кто дошел до финиша</span>
+            <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '12px', color: '#7a7f8a', fontWeight: 400 }}>Войдите в 36% тех, кто дошел до финиша</span>
           </div>
         </div>
 
@@ -196,36 +202,34 @@ export function StartScreen({ onStart }) {
               onStart();
             }
           }}
-          aria-label="Начать аудит маркетинга"
-          style={{
-            minHeight: '44px',
-            padding: isMobile ? '14px 36px' : '18px 48px',
-            fontSize: isMobile ? '15px' : '16px',
-            fontWeight: 700,
-            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '12px',
-            cursor: 'pointer',
-            fontFamily: 'inherit',
-            transition: 'all 0.3s ease',
-            boxShadow: '0 4px 20px rgba(34, 197, 94, 0.3)',
-            outline: 'none'
-          }}
-          onMouseOver={(e) => {
-            e.target.style.transform = 'translateY(-2px)';
-            e.target.style.boxShadow = '0 6px 30px rgba(34, 197, 94, 0.4)';
-          }}
-          onMouseOut={(e) => {
-            e.target.style.transform = 'translateY(0)';
-            e.target.style.boxShadow = '0 4px 20px rgba(34, 197, 94, 0.3)';
-          }}
+          onMouseOver={() => setIsHovered(true)}
+          onMouseOut={() => setIsHovered(false)}
           onFocus={(e) => {
-            e.target.style.outline = '3px solid #22c55e';
+            e.target.style.outline = '3px solid #c8f542';
             e.target.style.outlineOffset = '2px';
           }}
           onBlur={(e) => {
             e.target.style.outline = 'none';
+          }}
+          aria-label="Начать аудит маркетинга"
+          style={{
+            minHeight: isMobile ? '65px' : '44px',
+            padding: isMobile ? '18px 33px' : '24px 36px',
+            fontSize: isMobile ? '16px' : '17px',
+            fontWeight: 600,
+            fontFamily: "'Manrope', sans-serif",
+            background: isHovered ? '#c8f542' : '#1a1a2e',
+            color: isHovered ? '#1a1a2e' : '#ffffff',
+            border: 'none',
+            borderRadius: '16px',
+            cursor: 'pointer',
+            transition: 'all 0.25s ease',
+            boxShadow: isHovered
+              ? '0 10px 40px rgba(200,245,66,0.35)'
+              : '0 4px 20px rgba(26,26,46,0.15)',
+            transform: isHovered ? 'scale(1.04)' : 'scale(1)',
+            outline: 'none',
+            willChange: 'transform'
           }}
         >
           Начать аудит →

@@ -1,7 +1,7 @@
 'use client';
 import { checkpoints, preCheckpointMessages, motivationalMessages } from '../data/gamification';
 
-// Маппинг иконок
+// Маппинг иконок на PNG
 const iconPaths = {
   'Предприниматель': '/icons/flag.png',
   'Стойкий основатель': '/icons/bicep.png',
@@ -12,7 +12,7 @@ const iconPaths = {
 export function ProgressBar({ currentQuestion, totalQuestions }) {
   // Прогресс от 4% (вопрос 1) до 100% (вопрос 25)
   const progress = (currentQuestion / totalQuestions) * 100;
-  
+
   // Позиции чекпоинтов на линии (в процентах)
   const checkpointPositions = [
     { pos: 0, question: 1, title: 'Предприниматель', icon: '/icons/flag.png' },
@@ -21,7 +21,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
     { pos: 100, question: 25, title: 'Целеустремлённый лидер', icon: '/icons/trophy.png' }
   ];
 
-  // Границы сегментов
+  // Границы сегментов для трёхцветной схемы
   const segment1End = 44; // Зелёный: 0-44%
   const segment2End = 76; // Жёлтый: 44-76%
   // Красный: 76-100%
@@ -41,7 +41,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
     <div style={{ paddingTop: '16px' }} role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin="0" aria-valuemax="100" aria-label={`Прогресс теста: ${Math.round(progress)} процентов`}>
       {/* Иконки и прогресс-бар */}
       <div style={{ position: 'relative', height: '70px', marginBottom: '12px' }}>
-        
+
         {/* Иконки над линией */}
         {checkpointPositions.map((cp, idx) => {
           const active = isIconActive(cp.question);
@@ -53,8 +53,8 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
               transform: 'translateX(-50%)',
               zIndex: 3
             }}>
-              <img 
-                src={cp.icon} 
+              <img
+                src={cp.icon}
                 alt={cp.title}
                 style={{
                   width: '32px',
@@ -74,7 +74,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
           left: '0',
           right: '0',
           height: '8px',
-          background: '#333',
+          background: '#d1d5db',
           borderRadius: '4px',
           overflow: 'visible'
         }}>
@@ -91,7 +91,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
               transition: 'width 0.3s ease'
             }} />
           )}
-          
+
           {/* Жёлтый сегмент (44-76%) */}
           {progress > segment1End && (
             <div style={{
@@ -104,7 +104,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
               transition: 'width 0.3s ease'
             }} />
           )}
-          
+
           {/* Красный сегмент (76-100%) */}
           {progress > segment2End && (
             <div style={{
@@ -121,15 +121,14 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
 
           {/* Круглые маркеры под иконками */}
           {checkpointPositions.map((cp, idx) => {
-            const active = isIconActive(cp.question);
-            // Определяем цвет маркера по позиции
-            let markerColor = '#333';
+            // Определяем цвет маркера по позиции и прогрессу
+            let markerColor = '#d1d5db';
             if (progress >= cp.pos) {
               if (cp.pos <= segment1End) markerColor = '#22c55e';
               else if (cp.pos <= segment2End) markerColor = '#eab308';
               else markerColor = '#ef4444';
             }
-            
+
             return (
               <div key={idx} style={{
                 position: 'absolute',
@@ -140,7 +139,7 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
                 height: '16px',
                 borderRadius: '50%',
                 background: markerColor,
-                border: '3px solid #0a0a0a',
+                border: '3px solid #f5f5f7',
                 zIndex: 2,
                 transition: 'background 0.3s ease'
               }} />
@@ -150,39 +149,22 @@ export function ProgressBar({ currentQuestion, totalQuestions }) {
       </div>
 
       {/* Строка 1: процент и номер вопроса */}
-      <div style={{ fontSize: '13px', color: '#949494', textAlign: 'left', marginBottom: '4px' }}>
-        <span style={{ color: '#fff', fontWeight: 600 }}>{Math.round(progress)}%</span> пройдено • Вопрос {currentQuestion} из {totalQuestions}
+      <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '13px', color: '#7a7f8a', textAlign: 'left', marginBottom: '4px' }}>
+        <span style={{ color: '#1a1a2e', fontWeight: 600 }}>{Math.round(progress)}%</span> пройдено • Вопрос {currentQuestion} из {totalQuestions}
       </div>
 
       {/* Строка 2: текущий уровень и до следующего рубежа */}
-      {currentQuestion === 25 ? (
-        <div style={{ fontSize: '13px', color: '#eab308', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <img src="/icons/trophy.png" alt="" style={{ width: '16px', height: '16px' }} />
-          Последний ответ до ранга Целеустремленный лидер
-        </div>
-      ) : currentQuestion === 19 ? (
-        <div style={{ fontSize: '13px', color: '#eab308', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <img src="/icons/shield.png" alt="" style={{ width: '16px', height: '16px' }} />
-          Один ответ до рубежа Железная воля
-        </div>
-      ) : currentQuestion === 11 ? (
-        <div style={{ fontSize: '13px', color: '#eab308', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <img src="/icons/bicep.png" alt="" style={{ width: '16px', height: '16px' }} />
-          Ещё ответ до рубежа Стойкий основатель
-        </div>
-      ) : currentCheckpoint && (
-        <div style={{ fontSize: '13px', color: '#949494', textAlign: 'left', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
-          <span>Текущий уровень:</span>
-          <img src={iconPaths[currentCheckpoint.title]} alt="" style={{ width: '16px', height: '16px', verticalAlign: 'middle' }} />
+      {currentCheckpoint && nextCheckpoint && (
+        <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '13px', color: '#7a7f8a', textAlign: 'left' }}>
           <span style={{ color: '#22c55e' }}>{currentCheckpoint.title}</span>
-          {nextCheckpoint && (
-            <>
-              <span>, до рубежа</span>
-              <img src={iconPaths[nextCheckpoint.title]} alt="" style={{ width: '16px', height: '16px', verticalAlign: 'middle' }} />
-              <span style={{ color: '#fff' }}>{nextCheckpoint.title}</span>
-              <span>: {questionsToNext} {questionsToNext === 1 ? 'вопрос' : questionsToNext < 5 ? 'вопроса' : 'вопросов'}</span>
-            </>
-          )}
+          <span> • До рубежа </span>
+          <span style={{ color: '#1a1a2e' }}>{nextCheckpoint.title}</span>
+          <span>: {questionsToNext} {questionsToNext === 1 ? 'вопрос' : questionsToNext < 5 ? 'вопроса' : 'вопросов'}</span>
+        </div>
+      )}
+      {currentCheckpoint && !nextCheckpoint && (
+        <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '13px', color: '#22c55e', textAlign: 'left' }}>
+          Последний рубеж: {currentCheckpoint.title}
         </div>
       )}
     </div>
@@ -193,20 +175,21 @@ export function MotivationalMessage({ questionNumber }) {
   const preCheckpoint = preCheckpointMessages[questionNumber];
   const motivational = motivationalMessages[questionNumber];
   const message = preCheckpoint || motivational;
-  
+
   if (!message) return null;
-  
+
   const isPreCheckpoint = !!preCheckpoint;
-  
+
   return (
     <div style={{
       padding: '12px 16px',
-      background: isPreCheckpoint ? 'rgba(234, 179, 8, 0.1)' : 'rgba(66, 153, 225, 0.1)',
-      border: `1px solid ${isPreCheckpoint ? 'rgba(234, 179, 8, 0.3)' : 'rgba(66, 153, 225, 0.3)'}`,
+      fontFamily: "'Manrope', sans-serif",
+      background: isPreCheckpoint ? 'rgba(234, 179, 8, 0.08)' : 'rgba(66, 153, 225, 0.08)',
+      border: `1px solid ${isPreCheckpoint ? 'rgba(234, 179, 8, 0.2)' : 'rgba(66, 153, 225, 0.2)'}`,
       borderRadius: '10px',
       fontSize: '13px',
       lineHeight: 1.5,
-      color: isPreCheckpoint ? '#eab308' : '#4299e1'
+      color: isPreCheckpoint ? '#b8960a' : '#2b6cb0'
     }}>
       {message}
     </div>
@@ -217,12 +200,13 @@ export function CheckpointMessage({ checkpoint }) {
   return (
     <div style={{
       padding: '12px 16px',
-      background: 'rgba(34, 197, 94, 0.1)',
-      border: '1px solid rgba(34, 197, 94, 0.3)',
+      fontFamily: "'Manrope', sans-serif",
+      background: 'rgba(34, 197, 94, 0.08)',
+      border: '1px solid rgba(34, 197, 94, 0.2)',
       borderRadius: '10px',
       fontSize: '13px',
       lineHeight: 1.5,
-      color: '#22c55e',
+      color: '#16a34a',
       display: 'flex',
       alignItems: 'center',
       gap: '8px'

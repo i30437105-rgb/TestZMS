@@ -12,32 +12,32 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   return (
-    <div style={{ 
-      minHeight: 'var(--app-height, 100vh)', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      background: '#0a0a0a',
+    <div style={{
+      minHeight: 'var(--app-height, 100vh)',
+      display: 'flex',
+      flexDirection: 'column',
+      background: '#f5f5f7',
       overflow: 'auto'
     }}>
       {/* Блок 1: Прогресс-бар */}
-      <div style={{ 
-        padding: '16px 20px 16px', 
-        maxWidth: '800px', 
-        margin: '0 auto', 
+      <div style={{
+        padding: '16px 20px 16px',
+        maxWidth: '800px',
+        margin: '0 auto',
         width: '100%',
         boxSizing: 'border-box',
         flexShrink: 0,
-        borderBottom: '1px solid rgba(255,255,255,0.05)'
+        borderBottom: '1px solid rgba(0,0,0,0.07)'
       }}>
         <ProgressBar currentQuestion={questionNumber} totalQuestions={totalQuestions} />
       </div>
-      
+
       {/* Блок 2: Мотивашки */}
-      <div style={{ 
+      <div style={{
         minHeight: '70px',
-        padding: '16px 20px', 
-        maxWidth: '800px', 
-        margin: '0 auto', 
+        padding: '16px 20px',
+        maxWidth: '800px',
+        margin: '0 auto',
         width: '100%',
         boxSizing: 'border-box',
         display: 'flex',
@@ -50,36 +50,38 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
           {!reachedCheckpoint && <MotivationalMessage questionNumber={questionNumber} />}
         </div>
       </div>
-      
+
       {/* Блок 3: Вопрос — занимает остаток */}
-      <div style={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column', 
-        padding: '20px 20px 40px', 
-        maxWidth: '800px', 
-        margin: '0 auto', 
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px 20px 40px',
+        maxWidth: '800px',
+        margin: '0 auto',
         width: '100%',
         boxSizing: 'border-box'
       }}>
         {/* Секция и вопрос */}
         <div style={{ flex: 1 }}>
           <div style={{
-            fontFamily: 'monospace',
+            fontFamily: "'Chakra Petch', sans-serif",
             fontSize: '11px',
-            color: '#949494',
+            color: '#7a7f8a',
             letterSpacing: '1px',
             marginBottom: '12px',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            fontWeight: 500
           }}>
             {question.section}
           </div>
-          <h2 style={{ 
-            fontSize: 'clamp(18px, 4vw, 24px)', 
-            fontWeight: 700, 
-            marginBottom: '24px', 
-            lineHeight: 1.5, 
-            color: '#fff' 
+          <h2 style={{
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: isMobile ? '16px' : '20px',
+            fontWeight: 700,
+            marginBottom: '24px',
+            lineHeight: 1.5,
+            color: '#111122'
           }}>
             {question.question}
           </h2>
@@ -112,12 +114,12 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
               padding: isMobile ? '16px 12px' : '20px 16px',
               fontSize: isMobile ? '16px' : '18px',
               fontWeight: 600,
+              fontFamily: "'Manrope', sans-serif",
               background: 'rgba(34, 197, 94, 0.1)',
               border: '2px solid #22c55e',
               borderRadius: '12px',
               color: '#22c55e',
               cursor: 'pointer',
-              fontFamily: 'inherit',
               transition: 'all 0.2s ease',
               outline: 'none'
             }}
@@ -157,12 +159,12 @@ export function DiagnosticQuestion({ question, questionNumber, totalQuestions, o
               padding: isMobile ? '16px 12px' : '20px 16px',
               fontSize: isMobile ? '16px' : '18px',
               fontWeight: 600,
+              fontFamily: "'Manrope', sans-serif",
               background: 'rgba(239, 68, 68, 0.1)',
               border: '2px solid #ef4444',
               borderRadius: '12px',
               color: '#ef4444',
               cursor: 'pointer',
-              fontFamily: 'inherit',
               transition: 'all 0.2s ease',
               outline: 'none'
             }}
@@ -233,32 +235,32 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
   };
 
   return (
-    <div style={{ 
-      minHeight: 'var(--app-height, 100vh)', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      background: '#0a0a0a',
+    <div style={{
+      minHeight: 'var(--app-height, 100vh)',
+      display: 'flex',
+      flexDirection: 'column',
+      background: '#f5f5f7',
       overflow: 'auto'
     }}>
       {/* Блок 1: Прогресс-бар */}
-      <div style={{ 
-        padding: '16px 20px 16px', 
-        maxWidth: '800px', 
-        margin: '0 auto', 
+      <div style={{
+        padding: '16px 20px 16px',
+        maxWidth: '800px',
+        margin: '0 auto',
         width: '100%',
         boxSizing: 'border-box',
         flexShrink: 0,
-        borderBottom: '1px solid rgba(255,255,255,0.05)'
+        borderBottom: '1px solid rgba(0,0,0,0.07)'
       }}>
         <ProgressBar currentQuestion={questionNumber} totalQuestions={totalQuestions} />
       </div>
 
       {/* Блок 2: Мотивашки */}
-      <div style={{ 
+      <div style={{
         minHeight: '70px',
-        padding: '16px 20px', 
-        maxWidth: '800px', 
-        margin: '0 auto', 
+        padding: '16px 20px',
+        maxWidth: '800px',
+        margin: '0 auto',
         width: '100%',
         boxSizing: 'border-box',
         display: 'flex',
@@ -271,34 +273,36 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
           {!reachedCheckpoint && <MotivationalMessage questionNumber={questionNumber} />}
         </div>
       </div>
-      
+
       {/* Блок 3: Вопрос — занимает остаток */}
-      <div style={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column', 
-        padding: '20px 20px 40px', 
-        maxWidth: '800px', 
-        margin: '0 auto', 
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px 20px 40px',
+        maxWidth: '800px',
+        margin: '0 auto',
         width: '100%',
         boxSizing: 'border-box'
       }}>
         <div style={{
-          fontFamily: 'monospace',
+          fontFamily: "'Chakra Petch', sans-serif",
           fontSize: '11px',
-          color: '#949494',
+          color: '#7a7f8a',
           letterSpacing: '1px',
           marginBottom: '12px',
-          textTransform: 'uppercase'
+          textTransform: 'uppercase',
+          fontWeight: 500
         }}>
           {sectionName}
         </div>
-        <h2 style={{ 
-          fontSize: 'clamp(18px, 4vw, 24px)', 
-          fontWeight: 700, 
-          marginBottom: '24px', 
-          lineHeight: 1.5, 
-          color: '#fff' 
+        <h2 style={{
+          fontFamily: "'Manrope', sans-serif",
+          fontSize: isMobile ? '16px' : '20px',
+          fontWeight: 700,
+          marginBottom: '24px',
+          lineHeight: 1.5,
+          color: '#111122'
         }}>
           {question.question}
         </h2>
@@ -313,12 +317,12 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
               minHeight: isMobile ? '100px' : '120px',
               padding: isMobile ? '14px 16px' : '16px 20px',
               fontSize: '16px',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              fontFamily: "'Manrope', sans-serif",
+              background: '#ffffff',
+              border: '1px solid #d1d5db',
               borderRadius: '12px',
-              color: '#fff',
+              color: '#1a1a2e',
               outline: 'none',
-              fontFamily: 'inherit',
               resize: 'vertical',
               marginBottom: '24px',
               boxSizing: 'border-box'
@@ -353,13 +357,13 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
                   minHeight: '44px',
                   padding: isMobile ? '12px 16px' : '14px 18px',
                   fontSize: isMobile ? '14px' : '14px',
-                  background: selectedOptions.includes(option) ? 'rgba(66, 153, 225, 0.2)' : 'rgba(255,255,255,0.05)',
-                  border: `2px solid ${selectedOptions.includes(option) ? '#4299e1' : 'rgba(255,255,255,0.1)'}`,
+                  fontFamily: "'Manrope', sans-serif",
+                  background: selectedOptions.includes(option) ? 'rgba(66, 153, 225, 0.1)' : '#ffffff',
+                  border: `2px solid ${selectedOptions.includes(option) ? '#4299e1' : '#d1d5db'}`,
                   borderRadius: '10px',
-                  color: '#fff',
+                  color: '#1a1a2e',
                   cursor: 'pointer',
                   textAlign: 'left',
-                  fontFamily: 'inherit',
                   transition: 'all 0.2s ease',
                   outline: 'none'
                 }}
@@ -384,12 +388,12 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
                   minHeight: '44px',
                   padding: isMobile ? '12px 16px' : '14px 18px',
                   fontSize: '14px',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  fontFamily: "'Manrope', sans-serif",
+                  background: '#ffffff',
+                  border: '1px solid #d1d5db',
                   borderRadius: '10px',
-                  color: '#fff',
+                  color: '#1a1a2e',
                   outline: 'none',
-                  fontFamily: 'inherit',
                   boxSizing: 'border-box'
                 }}
               />
@@ -397,7 +401,8 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
             {question.type === 'multiselect' && (
               <p style={{
                 fontSize: '12px',
-                color: '#949494',
+                fontFamily: "'Manrope', sans-serif",
+                color: '#7a7f8a',
                 margin: '4px 0 0'
               }}>
                 Выбрано: {selectedOptions.length}/3
@@ -426,12 +431,12 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
             padding: isMobile ? '14px 16px' : '18px',
             fontSize: isMobile ? '15px' : '16px',
             fontWeight: 600,
-            background: canSubmit() ? '#4299e1' : '#333',
-            color: '#fff',
+            fontFamily: "'Manrope', sans-serif",
+            background: canSubmit() ? '#4299e1' : '#d1d5db',
+            color: canSubmit() ? '#fff' : '#7a7f8a',
             border: 'none',
             borderRadius: '12px',
             cursor: canSubmit() ? 'pointer' : 'not-allowed',
-            fontFamily: 'inherit',
             transition: 'all 0.2s ease',
             marginTop: 'auto',
             outline: 'none'

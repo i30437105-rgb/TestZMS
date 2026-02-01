@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pallete AI — AI-Powered Color Palette Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Unbounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    <img src="assets/icons/crosshair.svg" alt="" class="logo-icon-img" width="28" height="28">
+                    <span class="logo-text">MetodZMS</span>
+                </a>
+                <div class="nav-links">
+                </div>
+            </div>
+            <div class="nav-right">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-left">
+                <p class="hero-supra">Для бизнеса с оборотом <span class="supra-gray">до <span class="counter" data-target="10">0</span> млн ₽/мес</span></p>
+                <h1 class="hero-title"><span class="highlight-lime">Краш-тест:</span><br>узнайте, почему<br>ваш <span class="highlight-gray">маркетинг</span><br>не дает роста</h1>
+                <p class="hero-subtitle">22 вопроса да/нет — и вы получите персональные рекомендации: какие элементы маркетинга у вас работают, какие нет, и что конкретно починить, чтобы выручка пошла вверх.</p>
+                <div class="hero-bullets">
+                    <div class="hero-bullet">
+                        <img src="assets/icons/clock.svg" alt="" width="18" height="18">
+                        <span>На прохождение 7 минут</span>
+                    </div>
+                    <div class="hero-bullet">
+                        <img src="assets/icons/clipboard-list.svg" alt="" width="18" height="18">
+                        <span>План действий без регистрации</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="/test" class="btn-primary">
+                        <img src="assets/icons/zap.svg" alt="" class="btn-icon btn-icon-white" width="22" height="22">
+                        <span>Пройти краш-тест</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="scanner-wrap">
+                    <div class="scan-line"></div>
+                    <div class="grid">
+                        <!-- Ряд 1: Рынок, Стратегия, Маркетолог, Конкуренты, Юнит-эк. -->
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/market.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/market.png" alt=""><span class="cell-label">Рынок</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/strategy.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/strategy.png" alt=""><span class="cell-label">Стратегия</span></div></div>
+                        <div class="cell" data-sick><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/marketer.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/marketer.png" alt=""><span class="cell-label">Маркетолог</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/competitors.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/competitors.png" alt=""><span class="cell-label">Конкуренты</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/unit-economics.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/unit-economics.png" alt=""><span class="cell-label">Юнит-эк.</span></div></div>
+                        <!-- Ряд 2: SWOT, Воронка, JTBD, 4P, Портрет -->
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/swot.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/swot.png" alt=""><span class="cell-label">SWOT</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/funnel.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/funnel.png" alt=""><span class="cell-label">Воронка</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/jtbd.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/jtbd.png" alt=""><span class="cell-label">JTBD</span></div></div>
+                        <div class="cell" data-sick><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/4p.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/4p.png" alt=""><span class="cell-label">4P</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/target-audience.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/target-audience.png" alt=""><span class="cell-label">Портрет</span></div></div>
+                        <!-- Ряд 3: Каналы, CJM, HADI, ABCDX, Cross-sale -->
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/ad-channels.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/ad-channels.png" alt=""><span class="cell-label">Каналы</span></div></div>
+                        <div class="cell" data-sick><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/cjm.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/cjm.png" alt=""><span class="cell-label">CJM</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/hadi.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/hadi.png" alt=""><span class="cell-label">HADI</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/abcdx.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/abcdx.png" alt=""><span class="cell-label">ABCDX</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/cross-sale.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/cross-sale.png" alt=""><span class="cell-label">Cross-sale</span></div></div>
+                        <!-- Ряд 4: Продукт, Интервью, РОП, CVP, Подрядчик -->
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/product.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/product.png" alt=""><span class="cell-label">Продукт</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/interview.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/interview.png" alt=""><span class="cell-label">Интервью</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/rop.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/rop.png" alt=""><span class="cell-label">РОП</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/cvp.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/cvp.png" alt=""><span class="cell-label">CVP</span></div></div>
+                        <div class="cell"><div class="cell-bg"></div><div class="cell-icon-dark"><img src="assets/icons/scanner/contractor.png" alt=""></div><div class="cell-white"><img class="cell-icon-color" src="assets/icons/scanner/contractor.png" alt=""><span class="cell-label">Подрядчик</span></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Quote -->
+    <section class="quote-section">
+        <div class="quote-container">
+            <div class="quote-left">
+                <div class="quote-card-banner">
+                    <img src="assets/images/ad_2.jpg" alt="Видео-баннер">
+                    <div class="video-overlay">
+                        <div class="video-icon"></div>
+                        <span class="video-label">Видео-инструкция</span>
+                    </div>
+                    <div class="video-play-button">
+                        <img src="assets/icons/youtube-logo-fill.svg" alt="Воспроизвести">
+                    </div>
+                </div>
+            </div>
+            <div class="quote-right">
+                <div class="quote-content">
+                    <h2 class="quote-heading">Тест разработал Алексей Добрусин — маркетолог с 16-летним опытом, кандидат э.н. Создатель инженерного подхода к маркетингу.</h2>
+                    <p class="quote-text">Метод заточен под микробизнес, где нет бюджетов и команды. Проверено на 300+ компаниях из 49 ниш. Средний рост выручки после внедрения — 40% за 5 месяцев.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Steps -->
+    <section class="steps-section">
+        <div class="steps-container">
+            <div class="steps-header">
+                <div class="steps-header-left">
+                    <h2 class="steps-title">Пройдите тест<br>и заберите 3 <span class="highlight-lime">бонуса</span></h2>
+                </div>
+                <div class="steps-header-right">
+                    <a href="/test" class="btn-primary">
+                        <img src="assets/icons/layers.svg" alt="" class="btn-icon btn-icon-white" width="22" height="22">
+                        <span>Забрать бонусы</span>
+                    </a>
+                </div>
+            </div>
+            <div class="steps-grid">
+                <!-- Card 1 -->
+                <div class="step-card step-card-dark">
+                    <div class="step-card-corner step-card-corner-tl"></div>
+                    <div class="step-card-corner step-card-corner-tr"></div>
+                    <div class="step-card-corner step-card-corner-bl"></div>
+                    <div class="step-card-corner step-card-corner-br"></div>
+                    <div class="step-card-header">
+                        <span class="step-label">// Бонус 01</span>
+                        <div class="step-number-wrap">
+                            <span class="step-number">01</span>
+                            <span class="step-dots">
+                                <span class="step-dot active"></span>
+                                <span class="step-dot"></span>
+                                <span class="step-dot"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="step-card-text">Схема в Miro «Система маркетинга<br>на 120 млн ₽»</p>
+                    <div class="step-card-image">
+                        <img src="assets/images/b_1.png" alt="Схема в Miro">
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="step-card">
+                    <div class="step-card-corner step-card-corner-tl"></div>
+                    <div class="step-card-corner step-card-corner-tr"></div>
+                    <div class="step-card-corner step-card-corner-bl"></div>
+                    <div class="step-card-corner step-card-corner-br"></div>
+                    <div class="step-card-header">
+                        <span class="step-label">// Бонус 02</span>
+                        <div class="step-number-wrap">
+                            <span class="step-number">02</span>
+                            <span class="step-dots">
+                                <span class="step-dot active"></span>
+                                <span class="step-dot active"></span>
+                                <span class="step-dot"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="step-card-text">Голосовые рекомендации<br>от Алексея по результатам теста</p>
+                    <div class="step-card-image">
+                        <img src="assets/images/b_2.jpg" alt="Голосовые рекомендации">
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="step-card">
+                    <div class="step-card-corner step-card-corner-tl"></div>
+                    <div class="step-card-corner step-card-corner-tr"></div>
+                    <div class="step-card-corner step-card-corner-bl"></div>
+                    <div class="step-card-corner step-card-corner-br"></div>
+                    <div class="step-card-header">
+                        <span class="step-label">// Бонус 03</span>
+                        <div class="step-number-wrap">
+                            <span class="step-number">03</span>
+                            <span class="step-dots">
+                                <span class="step-dot active"></span>
+                                <span class="step-dot active"></span>
+                                <span class="step-dot active"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="step-card-text">Видеоурок «Основы<br>инженерного маркетинга»</p>
+                    <div class="step-card-image">
+                        <img src="assets/images/b_3.png" alt="Видеоурок">
+                    </div>
+                </div>
+            </div>
+            <div class="steps-cta-mobile">
+                <a href="/test" class="btn-primary">
+                    <img src="assets/icons/layers.svg" alt="" class="btn-icon btn-icon-white" width="22" height="22">
+                    <span>Забрать бонусы</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Features -->
+    <section class="features-section">
+        <div class="features-container">
+            <h2 class="features-title">Если узнаете себя,<br>то <span class="highlight-lime">запускайте</span> тест</h2>
+            <div class="features-body">
+                <div class="features-left">
+                    <p class="features-desc">Совпало хотя бы 2 пункта? Значит, где-то в маркетинге дыра. Найдите её за 7 минут.</p>
+                    <a href="/test" class="btn-primary">
+                        <img src="assets/icons/zap.svg" alt="" class="btn-icon btn-icon-white" width="22" height="22">
+                        <span>Пройти краш-тест</span>
+                    </a>
+                </div>
+                <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="assets/icons/chart-spline.svg" alt="" width="24" height="24">
+                    </div>
+                    <h3 class="feature-card-title">«То густо, то пусто»</h3>
+                    <p class="feature-card-text">Продажи идут волнами, вы не знаете, сколько заработаете в следующем месяце</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="assets/icons/puzzle.svg" alt="" width="24" height="24">
+                    </div>
+                    <h3 class="feature-card-title">«Маркетинг — лоскутное одеяло»</h3>
+                    <p class="feature-card-text">Пробовали таргет, листовки, рассылки, а системного результата нет, просто сливаете бюджет</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="assets/icons/user-round-cog.svg" alt="" width="24" height="24">
+                    </div>
+                    <h3 class="feature-card-title">«Я — человек-оркестр»</h3>
+                    <p class="feature-card-text">Сами настраиваете, сами продаёте, сами контролируете. Всё на вас, не знаете, за что хвататься</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="assets/icons/cloud-fog.svg" alt="" width="24" height="24">
+                    </div>
+                    <h3 class="feature-card-title">«Бизнес в тумане»</h3>
+                    <p class="feature-card-text">Не понимаете, что конкретно делать, чтобы стало больше заявок и продаж</p>
+                </div>
+            </div>
+                <div class="features-bottom-mobile">
+                    <p class="features-desc">Совпало хотя бы 2 пункта? Значит, где-то в маркетинге дыра. Найдите её за 7 минут.</p>
+                    <a href="/test" class="btn-primary">
+                        <img src="assets/icons/zap.svg" alt="" class="btn-icon btn-icon-white" width="22" height="22">
+                        <span>Пройти краш-тест</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Showcase -->
+    <section class="showcase-section">
+        <div class="showcase-container">
+            <h2 class="showcase-title">Почему просто<br>запустить <span class="highlight-lime">рекламу</span><br>не работает?</h2>
+            <div class="showcase-grid">
+                <!-- Card 1: только текст (без карточки) -->
+                <div class="showcase-text-block">
+                    <h3 class="showcase-card-heading">Так делают 97 из 100 микробизнесов</h3>
+                    <p class="showcase-card-text">Если в механических часах нет одной шестерёнки — часы встают. Выглядят как часы, но время не показывают. Берут 1–2 инструмента из кучи: таргет, сайт, рассылка. Не сработало — берут следующие. Так можно годами перебирать инструменты и сливать бюджет без результата.</p>
+                    <p class="showcase-card-text" style="margin-top: 16px; color: #1a1a2e; font-weight: 600;">Большинство курсов и маркетологов продают вам отдельные шестерёнки: рилсы, автоворонки и пр. Россыпь запчастей — ещё не механизм.</p>
+                </div>
+                <!-- Card 2: изображение X -->
+                <div class="showcase-card">
+                    <img src="assets/images/x.png" alt="Инструменты без системы" class="showcase-card-image">
+                </div>
+                <!-- Card 3: изображение P -->
+                <div class="showcase-card">
+                    <img src="assets/images/p.png" alt="Система инструментов" class="showcase-card-image">
+                </div>
+                <!-- Card 4: только текст (без карточки) -->
+                <div class="showcase-text-block">
+                    <h3 class="showcase-card-heading">Так делают 3 из 100, которые растут</h3>
+                    <p class="showcase-card-text">Инструменты выстроены в систему. Каждый на своём месте, в нужной последовательности. Собственник включает их один за другим — и маркетинг начинает работать как механизм, который генерирует выручку — предсказуемо, независимо от вашего настроения и сезона.</p>
+                    <p class="showcase-card-text" style="margin-top: 16px; color: #1a1a2e; font-weight: 600;">Результат — стабильный рост выручки до 120 млн ₽ в год.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Career (photo + text) -->
+    <section class="career-section">
+        <h2 class="career-heading">Алексей <span class="highlight-lime">Добрусин</span></h2>
+        <div class="career-container">
+            <div class="career-image">
+                <img src="assets/images/ad_z.jpg" alt="">
+                <div class="career-overlay">
+                    <div class="career-dot"></div>
+                    <span class="career-overlay-label">Автор теста</span>
+                </div>
+            </div>
+            <div class="career-content">
+                <ul class="career-checklist">
+                    <li class="career-checklist-item">
+                        <img src="assets/icons/circle-check-lime.svg" alt="" class="career-check-icon" width="22" height="22">
+                        <span>Маркетолог-стратег, 16 лет практики</span>
+                    </li>
+                    <li class="career-checklist-item">
+                        <img src="assets/icons/circle-check-lime.svg" alt="" class="career-check-icon" width="22" height="22">
+                        <span>Кандидат экономических наук</span>
+                    </li>
+                    <li class="career-checklist-item">
+                        <img src="assets/icons/circle-check-lime.svg" alt="" class="career-check-icon" width="22" height="22">
+                        <span>Экс-директор по маркетингу в компаниях из ТОП-10 РФ</span>
+                    </li>
+                    <li class="career-checklist-item">
+                        <img src="assets/icons/circle-check-lime.svg" alt="" class="career-check-icon" width="22" height="22">
+                        <span>Автор метода ЗМС для микробизнеса</span>
+                    </li>
+                    <li class="career-checklist-item">
+                        <img src="assets/icons/circle-check-lime.svg" alt="" class="career-check-icon" width="22" height="22">
+                        <span>Трекер Сколково, эксперт Forbes</span>
+                    </li>
+                </ul>
+                <p class="career-text">Моя цель — чтобы вы перестали тушить пожары и начали управлять ростом. Для этого я и создал инженерный подход к маркетингу.</p>
+                <p class="career-text">Запускайте краш-тест и через 7 минут вы узнаете: какие действия сейчас принесут деньги, а какие просто сожгут время. <span style="color: #1a1a2e; font-weight: 600;">Собственники, прошедшие тест, находят в среднем 2–4 пробоены, через которые утекают деньги.</span> Сколько найдёте вы?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: Final CTA -->
+    <section class="final-section">
+        <h2 class="final-heading">Заберите бонусы<br>на сумму <span class="highlight-lime">7.300 ₽</span></h2>
+        <div class="final-container">
+            <div class="final-card final-card-light">
+                <div class="final-gift-icon">
+                    <img src="assets/icons/gift.svg" alt="" width="25" height="25">
+                </div>
+                <div class="final-bonus-list">
+                    <div class="final-bonus-item">
+                        <span class="final-bonus-dot"></span>
+                        <p class="final-bonus-text">Схема с подсказками: где провал, где точка роста</p>
+                    </div>
+                    <div class="final-bonus-item">
+                        <span class="final-bonus-dot"></span>
+                        <p class="final-bonus-text">Схема в Miro «Система маркетинга на 120 млн ₽»</p>
+                    </div>
+                    <div class="final-bonus-item">
+                        <span class="final-bonus-dot"></span>
+                        <p class="final-bonus-text">Голосовые рекомендации от Алексея</p>
+                    </div>
+                    <div class="final-bonus-item">
+                        <span class="final-bonus-dot"></span>
+                        <p class="final-bonus-text">Видеоурок «Основы инженерного маркетинга»</p>
+                    </div>
+                </div>
+                <p class="final-bonus-note">Чтобы получить такие подсказки и рекомендации от маркетолога, обычно нужно заплатить от 5 000 ₽ и потратить время на созвоны. <span style="font-weight: 600; color: #1a1a2e;">Здесь — бесплатно и за 7 минут. Плюс видеоурок и схема на 2 300 ₽.</span></p>
+            </div>
+            <div class="final-phone">
+                <div class="final-phone-frame">
+                    <img src="assets/images/16 Pro Max - Natural Titanium.png" alt="" class="final-phone-device">
+                    <img src="assets/images/scrin.jpg" alt="" class="final-phone-screen">
+                </div>
+            </div>
+            <div class="final-card final-card-dark">
+                <h2 class="final-dark-price">0₽</h2>
+                <h3 class="final-card-heading">Почему отдаю бесплатно?</h3>
+                <p class="final-card-text">Знаю, что 90% внедрят рекомендации сами. Но 10% захотят сделать это быстрее и безопаснее — с моей помощью. Этот тест — мой способ показать компетентность на деле и познакомить вас с моим подходом к маркетингу.</p>
+                <a href="/test" class="btn-primary final-cta">
+                    <img src="assets/icons/zap.svg" alt="" class="btn-icon btn-icon-white" width="22" height="22">
+                    <span>Пройти краш-тест</span>
+                </a>
+                <div class="final-phone-inline">
+                    <div class="final-phone-frame">
+                        <img src="assets/images/16 Pro Max - Natural Titanium.png" alt="" class="final-phone-device">
+                        <img src="assets/images/scrin.jpg" alt="" class="final-phone-screen">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Showcase 2 (дубль секции 5) — СКРЫТА, сохранена на будущее -->
+    <section class="showcase-section showcase-section-2" style="display: none;">
+        <div class="showcase-container">
+            <h2 class="showcase-title">В чем приемущество<br><span class="highlight-lime">инженерного</span> подхода?</h2>
+            <div class="showcase-grid">
+                <!-- Card 1: только текст (без карточки) -->
+                <div class="showcase-text-block">
+                    <h3 class="showcase-card-heading">Инструменты без системы не работают</h3>
+                    <p class="showcase-card-text">Представьте механические часы. Если внутри не хватает одной шестерёнки — часы встают. Выглядят как часы, но время не показывают. Большинство курсов и маркетологов продают вам отдельные шестерёнки: рилсы, автоворонки, скрипты. Но россыпь запчастей — это ещё не механизм.</p>
+                </div>
+                <!-- Card 2: визуальная карточка -->
+                <div class="showcase-card">
+                    <div class="showcase-card-visual showcase-visual-2">
+                        <div class="sc2-card sc2-card-left">
+                            <div class="sc2-label"></div>
+                            <div class="sc2-bars">
+                                <div class="sc2-bar" style="height:40%"></div>
+                                <div class="sc2-bar" style="height:60%"></div>
+                                <div class="sc2-bar" style="height:50%"></div>
+                            </div>
+                            <div class="sc2-card-title"></div>
+                            <div class="sc2-card-sub"></div>
+                        </div>
+                        <div class="sc2-card sc2-card-center">
+                            <div class="sc2-tabs">
+                                <div class="sc2-tab sc2-tab-active"></div>
+                                <div class="sc2-tab"></div>
+                            </div>
+                            <div class="sc2-content">
+                                <div class="sc2-globe"></div>
+                                <div class="sc2-chart-bars">
+                                    <div class="sc2-bar" style="height:30%"></div>
+                                    <div class="sc2-bar" style="height:70%"></div>
+                                    <div class="sc2-bar" style="height:50%"></div>
+                                    <div class="sc2-bar" style="height:90%"></div>
+                                </div>
+                                <div class="sc2-badge">+6</div>
+                            </div>
+                            <div class="sc2-card-title"></div>
+                            <div class="sc2-card-sub"></div>
+                        </div>
+                        <div class="sc2-card sc2-card-right">
+                            <div class="sc2-label"></div>
+                            <div class="sc2-line-chart"></div>
+                            <div class="sc2-card-title"></div>
+                            <div class="sc2-card-sub"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3: визуальная карточка -->
+                <div class="showcase-card">
+                    <div class="showcase-card-visual showcase-visual-3">
+                        <div class="sc3-left">
+                            <div class="sc3-panel sc3-panel-bars">
+                                <div class="sc3-mini-bars">
+                                    <div class="sc3-mbar" style="height:20%"></div>
+                                    <div class="sc3-mbar" style="height:30%"></div>
+                                    <div class="sc3-mbar" style="height:25%"></div>
+                                    <div class="sc3-mbar" style="height:40%"></div>
+                                    <div class="sc3-mbar" style="height:55%"></div>
+                                    <div class="sc3-mbar" style="height:70%"></div>
+                                    <div class="sc3-mbar" style="height:65%"></div>
+                                    <div class="sc3-mbar" style="height:80%"></div>
+                                    <div class="sc3-mbar" style="height:90%"></div>
+                                    <div class="sc3-mbar" style="height:85%"></div>
+                                </div>
+                                <div class="sc3-axis-labels">
+                                    <span>Q1</span><span>Q3</span><span>Q4</span><span>Q1</span><span>Q2</span>
+                                </div>
+                            </div>
+                            <div class="sc3-panel sc3-panel-line">
+                                <div class="sc3-line-area"></div>
+                                <div class="sc3-axis-labels">
+                                    <span>May</span><span>June</span><span>July</span><span>August</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sc3-right">
+                            <div class="sc3-add-panel">
+                                <div class="sc3-add-label">Add chart</div>
+                                <div class="sc3-add-icon">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4: только текст (без карточки) -->
+                <div class="showcase-text-block">
+                    <h3 class="showcase-card-heading">Инженерный подход — это сборка механизма</h3>
+                    <p class="showcase-card-text">Мы выстраиваем инструменты в правильной последовательности, чтобы они работали вместе. Не набор запчастей, а механизм, который генерирует выручку — предсказуемо, независимо от вашего настроения и сезона.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <a href="#" class="logo footer-logo">
+                <img src="assets/icons/crosshair.svg" alt="" class="footer-icon" width="22" height="22">
+                <span class="footer-logo-text">MetodZMS</span>
+            </a>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Политика конфиденциальности</a>
+                <span class="footer-divider">·</span>
+                <a href="#" class="footer-link">Оферта</a>
+            </div>
+            <p class="footer-copyright">© 2025 Алексей Добрусин</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
