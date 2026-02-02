@@ -1,6 +1,9 @@
 export const metadata = {
-  title: 'Маркетинг-Аудит | Method Dobrusin',
+  title: 'Метод ZMS',
   description: 'Диагностика бизнеса. 25 вопросов. 3 направления. Точечные рекомендации.',
+  icons: {
+    icon: '/landing/assets/icons/crosshair.svg',
+  },
 }
 
 export default function RootLayout({ children }) {
