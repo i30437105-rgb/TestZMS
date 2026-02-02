@@ -1891,11 +1891,11 @@ function FeaturesSection({ isMobile, results }) {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: isMobile ? 'center' : 'flex-start',
-                gap: '0'
+                gap: '4px'
               }}>
                 <div style={{
-                  width: isMobile ? '56px' : '104px',
-                  height: isMobile ? '56px' : '104px',
+                  width: isMobile ? '25px' : '47px',
+                  height: isMobile ? '25px' : '47px',
                   overflow: 'hidden',
                   flexShrink: 0
                 }}>
@@ -1913,7 +1913,7 @@ function FeaturesSection({ isMobile, results }) {
                 </div>
                 <h3 style={{
                   fontFamily: "'Unbounded', sans-serif",
-                  fontSize: isMobile ? '20px' : '28px',
+                  fontSize: isMobile ? '18px' : '26px',
                   fontWeight: 600,
                   color: '#1a1a2e',
                   lineHeight: 1.1,
@@ -1925,6 +1925,20 @@ function FeaturesSection({ isMobile, results }) {
                   <br />
                   <span style={{ color: '#7a7f8a' }}>{block.title}</span>
                 </h3>
+                {block.no_step && (
+                  <p style={{
+                    fontFamily: "'Manrope', sans-serif",
+                    fontSize: isMobile ? '16px' : '16px',
+                    fontWeight: 500,
+                    color: '#1a1a2e',
+                    lineHeight: 1.5,
+                    margin: 0,
+                    marginTop: '8px',
+                    textAlign: isMobile ? 'center' : 'left'
+                  }}>
+                    {block.no_step}
+                  </p>
+                )}
               </div>
 
               {/* Правая часть: две карточки */}
