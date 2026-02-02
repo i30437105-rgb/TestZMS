@@ -1149,7 +1149,7 @@ function CareerSection({ isMobile }) {
               </div>
               <span style={{
                 fontFamily: "'Unbounded', sans-serif",
-                fontSize: isMobile ? '12px' : '17px',
+                fontSize: isMobile ? '14px' : '17px',
                 fontWeight: 600,
                 color: '#ffffff',
               }}>
@@ -1158,7 +1158,7 @@ function CareerSection({ isMobile }) {
             </div>
             <p style={{
               fontFamily: "'Manrope', sans-serif",
-              fontSize: isMobile ? '12px' : '14px',
+              fontSize: isMobile ? '14px' : '14px',
               fontWeight: 400,
               color: '#ffffff',
               lineHeight: 1.5,
@@ -1183,7 +1183,7 @@ function CareerSection({ isMobile }) {
           }}>
           <h3 style={{
             fontFamily: "'Unbounded', sans-serif",
-            fontSize: isMobile ? '17px' : '20px',
+            fontSize: isMobile ? '19px' : '20px',
             fontWeight: 500,
             color: '#1a1a2e',
             lineHeight: 1.3,
@@ -1196,7 +1196,7 @@ function CareerSection({ isMobile }) {
           </h3>
           <p style={{
             fontFamily: "'Manrope', sans-serif",
-            fontSize: isMobile ? '14px' : '16px',
+            fontSize: isMobile ? '16px' : '16px',
             fontWeight: 400,
             color: '#7a7f8a',
             lineHeight: 1.5,
@@ -1332,8 +1332,8 @@ function CareerSection({ isMobile }) {
                   padding: isMobile ? '24px 48px' : '18px 40px',
                   width: isMobile ? '100%' : 'auto',
                   fontFamily: "'Manrope', sans-serif",
-                  fontSize: isMobile ? '15px' : '17px',
-                  fontWeight: 500,
+                  fontSize: isMobile ? '18px' : '17px',
+                  fontWeight: isMobile ? 700 : 600,
                   background: expired ? '#7a7f8a' : '#1a1a2e',
                   color: '#fff',
                   border: 'none',
@@ -1496,7 +1496,7 @@ function LandingStepsSection({ isMobile, results, answers }) {
       </div>
       <p style={{
         fontFamily: "'Manrope', sans-serif",
-        fontSize: isMobile ? '15px' : '16px',
+        fontSize: isMobile ? '17px' : '16px',
         fontWeight: 500,
         color: dark ? 'rgba(255,255,255,0.6)' : '#7a7f8a',
         lineHeight: 1.4,
@@ -1623,7 +1623,7 @@ function LandingStepsSection({ isMobile, results, answers }) {
         }}>
           <p style={{
             fontFamily: "'Unbounded', sans-serif",
-            fontSize: '16px',
+            fontSize: isMobile ? '19px' : '16px',
             fontWeight: 500,
             color: '#1a1a2e',
             margin: '0 0 8px 0',
@@ -1715,8 +1715,8 @@ function LandingStepsSection({ isMobile, results, answers }) {
               background: '#1a1a2e',
               color: '#fff',
               fontFamily: "'Manrope', sans-serif",
-              fontSize: isMobile ? '16px' : '15px',
-              fontWeight: 600,
+              fontSize: isMobile ? '18px' : '15px',
+              fontWeight: 700,
               borderRadius: '12px',
               border: 'none',
               whiteSpace: 'nowrap',
@@ -1871,7 +1871,7 @@ function FeaturesSection({ isMobile, results }) {
           };
           const textStyle = {
             fontFamily: "'Manrope', sans-serif",
-            fontSize: isMobile ? '13px' : '15px',
+            fontSize: isMobile ? '15px' : '15px',
             fontWeight: 400,
             color: '#7a7f8a',
             lineHeight: 1.5,
@@ -1894,8 +1894,8 @@ function FeaturesSection({ isMobile, results }) {
                 gap: '4px'
               }}>
                 <div style={{
-                  width: isMobile ? '25px' : '47px',
-                  height: isMobile ? '25px' : '47px',
+                  width: isMobile ? '30px' : '47px',
+                  height: isMobile ? '30px' : '47px',
                   overflow: 'hidden',
                   flexShrink: 0
                 }}>
@@ -1913,7 +1913,7 @@ function FeaturesSection({ isMobile, results }) {
                 </div>
                 <h3 style={{
                   fontFamily: "'Unbounded', sans-serif",
-                  fontSize: isMobile ? '18px' : '26px',
+                  fontSize: isMobile ? '19px' : '26px',
                   fontWeight: 600,
                   color: '#1a1a2e',
                   lineHeight: 1.1,
@@ -1928,7 +1928,7 @@ function FeaturesSection({ isMobile, results }) {
                 {block.no_step && (
                   <p style={{
                     fontFamily: "'Manrope', sans-serif",
-                    fontSize: isMobile ? '16px' : '16px',
+                    fontSize: isMobile ? '17px' : '16px',
                     fontWeight: 500,
                     color: '#1a1a2e',
                     lineHeight: 1.5,

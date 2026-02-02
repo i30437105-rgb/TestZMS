@@ -340,6 +340,10 @@ Hover: translateY(-6px) + усиление тени
 | 02.02.2026 | ResultsScreen | FeaturesSection: иконка сверху, заголовок ниже, иконки уменьшены (47px/25px), заголовок 26px/18px | Утверждено |
 | 02.02.2026 | ResultsScreen | FeaturesSection: под заголовком шага выводится текст no_step (Manrope 16px/500, цвет #1a1a2e) | Утверждено |
 | 02.02.2026 | ResultsScreen | FeaturesSection: gap иконка-заголовок 4px, отступ до текста no_step 8px | Утверждено |
+| 02.02.2026 | ResultsScreen | Мобайл: укрупнение текстов — FeaturesSection (карточки 15px, заголовок 19px, иконка 30px, no_step 17px) | Утверждено |
+| 02.02.2026 | ResultsScreen | Мобайл: CareerSection — имя 14px, описание 14px, заголовок карточки 19px, подзаголовок 16px | Утверждено |
+| 02.02.2026 | ResultsScreen | Мобайл: LandingStepsSection — бонусы 17px, форма заголовок 19px | Утверждено |
+| 02.02.2026 | ResultsScreen | Мобайл: кнопки «Записаться на аудит» и «Забрать бонусы» — 18px/700 | Утверждено |
 
 ---
 
@@ -359,5 +363,5 @@ Hover: translateY(-6px) + усиление тени
 
 ---
 
-**Последнее обновление:** 02.02.2026 (FeaturesSection: текст no_step под заголовком шага, уменьшены иконки и заголовки)
+**Последнее обновление:** 02.02.2026 (Мобайл: укрупнение текстов на странице результатов — FeaturesSection, CareerSection, LandingStepsSection, кнопки)
 **Версия лендинга:** v53
