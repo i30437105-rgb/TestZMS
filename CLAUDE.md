@@ -22,9 +22,21 @@
 
 ## Маршруты
 
-- `/` → redirect на лендинг
+- `/` → redirect на `/landing` (cleanUrls убирает .html)
 - `/test` → тест (React)
-- `/landing/index.html` → лендинг (статический HTML)
+- `/landing` → лендинг (статический HTML, `public/landing/index.html`)
+
+## КРИТИЧНО: пути в лендинге — только абсолютные
+
+Все пути в `public/landing/index.html` и `styles.css` ДОЛЖНЫ быть абсолютными (с префиксом `/landing/`).
+- `src="/landing/assets/icons/..."` — правильно
+- `src="assets/icons/..."` — НЕПРАВИЛЬНО, сломает сайт
+- `href="/landing/styles.css"` — правильно
+- `href="styles.css"` — НЕПРАВИЛЬНО
+
+**Причина:** `vercel.json` содержит `cleanUrls: true`, URL отображается как `/landing` (без `.html`). При относительных путях браузер ищет ассеты от корня `/`, а не от `/landing/`. Абсолютные пути решают эту проблему.
+
+**При добавлении новых картинок/иконок/файлов в лендинг — ВСЕГДА использовать абсолютный путь.**
 
 ## Обязательно: git commit + push после каждой доработки
 
