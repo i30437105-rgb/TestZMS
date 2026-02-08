@@ -3,7 +3,7 @@
    ============================================ */
 @font-face {
     font-family: 'ClashDisplay';
-    src: url('assets/fonts/ClashDisplay-Variable.ttf') format('truetype');
+    src: url('/landing/assets/fonts/ClashDisplay-Variable.ttf') format('truetype');
     font-weight: 200 700;
     font-display: swap;
 }
