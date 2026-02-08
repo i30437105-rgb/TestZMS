@@ -1851,6 +1851,20 @@ function FeaturesSection({ isMobile, results }) {
         </span>
       </h2>
 
+      <p style={{
+        fontFamily: "'Manrope', sans-serif",
+        fontSize: isMobile ? '16px' : '18px',
+        fontWeight: 400,
+        color: '#7a7f8a',
+        lineHeight: 1.5,
+        textAlign: isMobile ? 'center' : 'left',
+        margin: 0,
+        marginTop: isMobile ? '-20px' : '-44px',
+        marginBottom: isMobile ? '32px' : '48px'
+      }}>
+        Личные рекомендации и инструкции Алексея по рекомендованным шагам вы можете получить на персональном аудите.
+      </p>
+
       {/* Уровни инструментов — каждый = пара карточек */}
       <div style={{
         display: 'flex',
