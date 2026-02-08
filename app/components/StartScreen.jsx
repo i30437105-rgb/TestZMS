@@ -74,7 +74,7 @@ export function StartScreen({ onStart }) {
           textTransform: 'uppercase',
           fontWeight: 500
         }}>
-          METHOD ZMS
+          METOD ZMS
         </div>
 
         {/* Заголовок */}
