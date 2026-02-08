@@ -968,7 +968,7 @@ function CareerSection({ isMobile }) {
       setExpiredToast('Ваше предложение уже недействительно');
       setTimeout(() => setExpiredToast(null), 3500);
     } else {
-      alert('Переход к записи на аудит');
+      window.open('https://audit.metodzms.ru/?utm_source=test&utm_medium=results&utm_campaign=audit&promo=DOBRUSIN', '_blank');
     }
   };
 
