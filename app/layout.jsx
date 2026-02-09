@@ -23,6 +23,13 @@ export default function RootLayout({ children }) {
               window.addEventListener('resize', setAppHeight);
               window.addEventListener('orientationchange', setAppHeight);
               setAppHeight();
+              (function() {
+                var params = new URLSearchParams(window.location.search);
+                ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(key) {
+                  var val = params.get(key);
+                  if (val) sessionStorage.setItem(key, val);
+                });
+              })();
             `,
           }}
         />

@@ -163,6 +163,34 @@ const blockIconMap = {
 };
 
 // ============================================
+// TELEGRAM HELPERS
+// ============================================
+
+function getUtmData() {
+  if (typeof window === 'undefined') return {};
+  return {
+    source: sessionStorage.getItem('utm_source') || '',
+    medium: sessionStorage.getItem('utm_medium') || '',
+    campaign: sessionStorage.getItem('utm_campaign') || '',
+    content: sessionStorage.getItem('utm_content') || '',
+    term: sessionStorage.getItem('utm_term') || '',
+  };
+}
+
+async function sendTelegramEvent({ action, message_id, answers, results, utm, bonusData, auditClicked }) {
+  const response = await fetch('/api/telegram', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action, message_id, answers, results, utm, bonusData, auditClicked })
+  });
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Ошибка отправки');
+  }
+  return response.json();
+}
+
+// ============================================
 // UI КОМПОНЕНТЫ
 // ============================================
 
@@ -930,7 +958,7 @@ function SectionTrackVertical({ section, blocks, selectedBlock, onSelectBlock, s
 // СЕКЦИЯ "АЛЕКСЕЙ ДОБРУСИН" (из лендинга — Career Section)
 // ============================================
 
-function CareerSection({ isMobile }) {
+function CareerSection({ isMobile, onAuditClick }) {
   const isTablet = typeof window !== 'undefined' && window.innerWidth > 768 && window.innerWidth <= 1100;
   const sectionRef = useRef(null);
   const timerStarted = useRef(false);
@@ -969,6 +997,7 @@ function CareerSection({ isMobile }) {
       setTimeout(() => setExpiredToast(null), 3500);
     } else {
       window.open('https://audit.metodzms.ru/?utm_source=test&utm_medium=results&utm_campaign=audit&promo=DOBRUSIN', '_blank');
+      if (onAuditClick) onAuditClick();
     }
   };
 
@@ -1367,7 +1396,7 @@ function CareerSection({ isMobile }) {
 // СЕКЦИЯ "БОНУСЫ" (из лендинга — Steps Section)
 // ============================================
 
-function LandingStepsSection({ isMobile, results, answers }) {
+function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
   const isTablet = typeof window !== 'undefined' && window.innerWidth > 768 && window.innerWidth <= 1100;
   const [hoveredBtn, setHoveredBtn] = useState(null);
   const [name, setName] = useState('');
@@ -1395,19 +1424,8 @@ function LandingStepsSection({ isMobile, results, answers }) {
     setSubmitStatus(null);
     setErrors({});
     try {
-      const contactData = {
-        name: name.trim(),
-        phone: telegram.trim(),
-        email: 'Не указан'
-      };
-      const response = await fetch('/api/telegram', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contactData, answers, results })
-      });
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Ошибка отправки');
+      if (onBonusSubmit) {
+        await onBonusSubmit(name.trim(), telegram.trim());
       }
       setSubmitStatus('success');
       setName('');
@@ -2023,6 +2041,10 @@ export function ResultsScreen({ results, answers, onRestart }) {
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [telegramMessageId, setTelegramMessageId] = useState(null);
+  const [bonusData, setBonusData] = useState(null);
+  const [auditClicked, setAuditClicked] = useState(false);
+  const telegramSent = useRef(false);
 
   useEffect(() => {
     const mqlMobile = window.matchMedia('(max-width: 899px)');
@@ -2038,6 +2060,76 @@ export function ResultsScreen({ results, answers, onRestart }) {
       mqlTablet.removeEventListener('change', onTabletChange);
     };
   }, []);
+
+  // Отправка первого сообщения в Telegram при загрузке результатов
+  useEffect(() => {
+    if (telegramSent.current) return;
+    telegramSent.current = true;
+
+    const utm = getUtmData();
+
+    sendTelegramEvent({
+      action: 'send',
+      message_id: null,
+      answers,
+      results,
+      utm,
+      bonusData: null,
+      auditClicked: false
+    }).then(data => {
+      if (data.message_id) {
+        setTelegramMessageId(data.message_id);
+        try { sessionStorage.setItem('zms_message_id', String(data.message_id)); } catch(e) {}
+      }
+    }).catch(err => {
+      console.error('Failed to send initial Telegram message:', err);
+    });
+  }, []);
+
+  // Обработчик отправки бонусной формы
+  const handleBonusSubmit = async (name, telegram) => {
+    const newBonusData = { name, telegram };
+    setBonusData(newBonusData);
+
+    const msgId = telegramMessageId || Number(sessionStorage.getItem('zms_message_id'));
+    if (!msgId) return;
+
+    const utm = getUtmData();
+
+    await sendTelegramEvent({
+      action: 'edit',
+      message_id: msgId,
+      answers,
+      results,
+      utm,
+      bonusData: newBonusData,
+      auditClicked
+    });
+  };
+
+  // Обработчик клика на аудит
+  const handleAuditClick = async () => {
+    setAuditClicked(true);
+
+    const msgId = telegramMessageId || Number(sessionStorage.getItem('zms_message_id'));
+    if (!msgId) return;
+
+    const utm = getUtmData();
+
+    try {
+      await sendTelegramEvent({
+        action: 'edit',
+        message_id: msgId,
+        answers,
+        results,
+        utm,
+        bonusData,
+        auditClicked: true
+      });
+    } catch (err) {
+      console.error('Failed to edit Telegram message (audit):', err);
+    }
+  };
 
   const handleDeselectBlock = () => setSelectedBlock(null);
 
@@ -2283,10 +2375,10 @@ export function ResultsScreen({ results, answers, onRestart }) {
         </div>
 
         {/* Секция "Алексей Добрусин" — предложение 15 минут */}
-        <CareerSection isMobile={isMobile} />
+        <CareerSection isMobile={isMobile} onAuditClick={handleAuditClick} />
 
         {/* Секция "Бонусы" — форма + карточки */}
-        <LandingStepsSection isMobile={isMobile} results={results} answers={answers} />
+        <LandingStepsSection isMobile={isMobile} results={results} answers={answers} onBonusSubmit={handleBonusSubmit} />
       </main>
 
       {/* Футер — на всю ширину, как на лендинге */}

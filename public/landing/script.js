@@ -197,3 +197,17 @@
         scanLine.classList.remove('dragging');
     });
 })();
+
+/* ============================================
+   UTM tracking — save to sessionStorage
+   ============================================ */
+(function() {
+    var params = new URLSearchParams(window.location.search);
+    var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    utmKeys.forEach(function(key) {
+        var val = params.get(key);
+        if (val) {
+            sessionStorage.setItem(key, val);
+        }
+    });
+})();
