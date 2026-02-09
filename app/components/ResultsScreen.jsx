@@ -177,11 +177,11 @@ function getUtmData() {
   };
 }
 
-async function sendTelegramEvent({ action, message_id, answers, results, utm, bonusData, auditClicked }) {
+async function sendTelegramEvent({ action, message_id, answers, results, utm, bonusData, auditClicked, hostname }) {
   const response = await fetch('/api/telegram', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action, message_id, answers, results, utm, bonusData, auditClicked })
+    body: JSON.stringify({ action, message_id, answers, results, utm, bonusData, auditClicked, hostname })
   });
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
@@ -1405,6 +1405,7 @@ function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errors, setErrors] = useState({});
   const [formWarning, setFormWarning] = useState(false);
+  const [bonusSent, setBonusSent] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -1427,10 +1428,9 @@ function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
       if (onBonusSubmit) {
         await onBonusSubmit(name.trim(), telegram.trim());
       }
-      setSubmitStatus('success');
-      setName('');
-      setTelegram('');
-      setTimeout(() => setSubmitStatus(null), 4000);
+      setBonusSent(true);
+      // TODO: заменить на ссылку Telegram-бота
+      window.open('https://t.me/metodzms_bot', '_blank');
     } catch (error) {
       console.error('Ошибка отправки в Telegram:', error);
       setSubmitStatus('error');
@@ -1635,179 +1635,191 @@ function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
           flexDirection: 'column',
           gap: '16px',
           order: 2,
-          animation: 'form-pulse 3s ease-in-out infinite',
           position: 'relative',
           overflow: 'visible',
+          justifyContent: bonusSent ? 'center' : undefined,
+          alignItems: bonusSent ? 'center' : undefined,
         }}>
-          <p style={{
-            fontFamily: "'Unbounded', sans-serif",
-            fontSize: isMobile ? '19px' : '16px',
-            fontWeight: 500,
-            color: '#1a1a2e',
-            margin: '0 0 8px 0',
-            lineHeight: 1.4,
-            textAlign: 'left',
-          }}>
-            Получите свои материалы<br />в Telegram
-          </p>
-
-          <div>
-            <input
-              type="text"
-              placeholder="Имя *"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                if (errors.name) setErrors({...errors, name: null});
-              }}
-              aria-label="Введите ваше имя"
-              aria-required="true"
-              style={{
-                width: '100%',
-                padding: isMobile ? '16px 20px' : '14px 18px',
-                fontSize: isMobile ? '16px' : '15px',
-                background: '#fff',
-                border: errors.name ? '2px solid #ef4444' : '1px solid #e5e5e5',
-                borderRadius: '10px',
+          {bonusSent ? (
+            <>
+              <div style={{
+                width: isMobile ? '64px' : '72px',
+                height: isMobile ? '64px' : '72px',
+                borderRadius: '50%',
+                background: '#1a1a2e',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '12px',
+              }}>
+                <svg width={isMobile ? 30 : 36} height={isMobile ? 30 : 36} viewBox="0 0 24 24" fill="none">
+                  <path d="M5 13l4 4L19 7" stroke="#c8f542" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <p style={{
+                fontFamily: "'Unbounded', sans-serif",
+                fontSize: isMobile ? '18px' : '16px',
+                fontWeight: 600,
                 color: '#1a1a2e',
-                outline: 'none',
-                fontFamily: "'Manrope', sans-serif",
-                boxSizing: 'border-box',
-              }}
-              onFocus={(e) => { e.target.style.outline = '2px solid #c8f542'; e.target.style.outlineOffset = '2px'; }}
-              onBlur={(e) => { e.target.style.outline = 'none'; }}
-            />
-            {errors.name && (
-              <div style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }} role="alert">{errors.name}</div>
-            )}
-          </div>
-
-          <div>
-            <input
-              type="text"
-              placeholder="Никнейм Telegram *"
-              value={telegram}
-              onChange={(e) => {
-                setTelegram(e.target.value);
-                if (errors.telegram) setErrors({...errors, telegram: null});
-              }}
-              aria-label="Введите никнейм Telegram"
-              aria-required="true"
-              style={{
-                width: '100%',
-                padding: isMobile ? '16px 20px' : '14px 18px',
-                fontSize: isMobile ? '16px' : '15px',
-                background: '#fff',
-                border: errors.telegram ? '2px solid #ef4444' : '1px solid #e5e5e5',
-                borderRadius: '10px',
+                margin: 0,
+                textAlign: 'center',
+              }}>
+                Бонусы получены
+              </p>
+            </>
+          ) : (
+            <>
+              <p style={{
+                fontFamily: "'Unbounded', sans-serif",
+                fontSize: isMobile ? '19px' : '16px',
+                fontWeight: 500,
                 color: '#1a1a2e',
-                outline: 'none',
-                fontFamily: "'Manrope', sans-serif",
-                boxSizing: 'border-box',
-              }}
-              onFocus={(e) => { e.target.style.outline = '2px solid #c8f542'; e.target.style.outlineOffset = '2px'; }}
-              onBlur={(e) => { e.target.style.outline = 'none'; }}
-            />
-            {errors.telegram && (
-              <div style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }} role="alert">{errors.telegram}</div>
-            )}
-          </div>
+                margin: '0 0 8px 0',
+                lineHeight: 1.4,
+                textAlign: 'left',
+              }}>
+                Получите свои материалы<br />в Telegram
+              </p>
 
-          <button
-            onClick={() => {
-              if (!name.trim() || !telegram.trim()) {
-                setFormWarning(true);
-                setTimeout(() => setFormWarning(false), 3000);
-                return;
-              }
-              setFormWarning(false);
-              handleSubmit();
-            }}
-            disabled={isSubmitting}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '14px',
-              padding: isMobile ? '24px 48px' : '14px 18px',
-              background: '#1a1a2e',
-              color: '#fff',
-              fontFamily: "'Manrope', sans-serif",
-              fontSize: isMobile ? '18px' : '15px',
-              fontWeight: 700,
-              borderRadius: '12px',
-              border: 'none',
-              whiteSpace: 'nowrap',
-              transition: 'box-shadow 0.3s ease, transform 0.25s ease, background 0.3s ease',
-              cursor: isSubmitting ? 'not-allowed' : 'pointer',
-              width: '100%',
-              marginTop: '8px',
-              ...(hoveredBtn === 'submit' && !isSubmitting ? { boxShadow: '0 8px 28px rgba(200, 245, 66, 0.35)', transform: 'scale(1.04)' } : {}),
-            }}
-            onMouseEnter={() => setHoveredBtn('submit')}
-            onMouseLeave={() => setHoveredBtn(null)}
-          >
-            {isSubmitting ? 'Отправка...' : 'Забрать бонусы'}
-          </button>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Имя *"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (errors.name) setErrors({...errors, name: null});
+                  }}
+                  aria-label="Введите ваше имя"
+                  aria-required="true"
+                  style={{
+                    width: '100%',
+                    padding: isMobile ? '16px 20px' : '14px 18px',
+                    fontSize: isMobile ? '16px' : '15px',
+                    background: '#fff',
+                    border: errors.name ? '2px solid #ef4444' : '1px solid #e5e5e5',
+                    borderRadius: '10px',
+                    color: '#1a1a2e',
+                    outline: 'none',
+                    fontFamily: "'Manrope', sans-serif",
+                    boxSizing: 'border-box',
+                  }}
+                  onFocus={(e) => { e.target.style.outline = '2px solid #c8f542'; e.target.style.outlineOffset = '2px'; }}
+                  onBlur={(e) => { e.target.style.outline = 'none'; }}
+                />
+                {errors.name && (
+                  <div style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }} role="alert">{errors.name}</div>
+                )}
+              </div>
 
-          {formWarning && (
-            <div style={{
-              position: 'absolute',
-              bottom: '-40px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              padding: '8px 20px',
-              background: '#1a1a2e',
-              color: '#fff',
-              fontSize: '13px',
-              fontFamily: "'Manrope', sans-serif",
-              borderRadius: '8px',
-              whiteSpace: 'nowrap',
-              animation: 'toast-fade 3s ease forwards',
-              pointerEvents: 'none',
-            }}>
-              Заполните поля формы
-            </div>
-          )}
+              <div>
+                <input
+                  type="text"
+                  placeholder="Никнейм Telegram *"
+                  value={telegram}
+                  onChange={(e) => {
+                    setTelegram(e.target.value);
+                    if (errors.telegram) setErrors({...errors, telegram: null});
+                  }}
+                  aria-label="Введите никнейм Telegram"
+                  aria-required="true"
+                  style={{
+                    width: '100%',
+                    padding: isMobile ? '16px 20px' : '14px 18px',
+                    fontSize: isMobile ? '16px' : '15px',
+                    background: '#fff',
+                    border: errors.telegram ? '2px solid #ef4444' : '1px solid #e5e5e5',
+                    borderRadius: '10px',
+                    color: '#1a1a2e',
+                    outline: 'none',
+                    fontFamily: "'Manrope', sans-serif",
+                    boxSizing: 'border-box',
+                  }}
+                  onFocus={(e) => { e.target.style.outline = '2px solid #c8f542'; e.target.style.outlineOffset = '2px'; }}
+                  onBlur={(e) => { e.target.style.outline = 'none'; }}
+                />
+                {errors.telegram && (
+                  <div style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }} role="alert">{errors.telegram}</div>
+                )}
+              </div>
 
-          {submitStatus === 'success' && (
-            <div style={{
-              position: 'absolute',
-              bottom: '-40px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              padding: '8px 20px',
-              background: '#1a1a2e',
-              color: '#c8f542',
-              fontSize: '13px',
-              fontFamily: "'Manrope', sans-serif",
-              borderRadius: '8px',
-              whiteSpace: 'nowrap',
-              animation: 'toast-fade 4s ease forwards',
-              pointerEvents: 'none',
-            }}>
-              Ваши бонусы отправлены в Telegram
-            </div>
-          )}
+              <button
+                onClick={() => {
+                  if (!name.trim() || !telegram.trim()) {
+                    setFormWarning(true);
+                    setTimeout(() => setFormWarning(false), 3000);
+                    return;
+                  }
+                  setFormWarning(false);
+                  handleSubmit();
+                }}
+                disabled={isSubmitting}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '14px',
+                  padding: isMobile ? '24px 48px' : '14px 18px',
+                  background: '#1a1a2e',
+                  color: '#fff',
+                  fontFamily: "'Manrope', sans-serif",
+                  fontSize: isMobile ? '18px' : '15px',
+                  fontWeight: 700,
+                  borderRadius: '12px',
+                  border: 'none',
+                  whiteSpace: 'nowrap',
+                  transition: 'box-shadow 0.3s ease, transform 0.25s ease, background 0.3s ease',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                  width: '100%',
+                  marginTop: '8px',
+                  ...(hoveredBtn === 'submit' && !isSubmitting ? { boxShadow: '0 8px 28px rgba(200, 245, 66, 0.35)', transform: 'scale(1.04)' } : {}),
+                }}
+                onMouseEnter={() => setHoveredBtn('submit')}
+                onMouseLeave={() => setHoveredBtn(null)}
+              >
+                {isSubmitting ? 'Отправка...' : 'Забрать бонусы'}
+              </button>
 
-          {submitStatus === 'error' && (
-            <div style={{
-              position: 'absolute',
-              bottom: '-40px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              padding: '8px 20px',
-              background: '#1a1a2e',
-              color: '#ef4444',
-              fontSize: '13px',
-              fontFamily: "'Manrope', sans-serif",
-              borderRadius: '8px',
-              whiteSpace: 'nowrap',
-              animation: 'toast-fade 4s ease forwards',
-              pointerEvents: 'none',
-            }}>
-              Ошибка отправки. Попробуйте снова
-            </div>
+              {formWarning && (
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-40px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  padding: '8px 20px',
+                  background: '#1a1a2e',
+                  color: '#fff',
+                  fontSize: '13px',
+                  fontFamily: "'Manrope', sans-serif",
+                  borderRadius: '8px',
+                  whiteSpace: 'nowrap',
+                  animation: 'toast-fade 3s ease forwards',
+                  pointerEvents: 'none',
+                }}>
+                  Заполните поля формы
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-40px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  padding: '8px 20px',
+                  background: '#1a1a2e',
+                  color: '#ef4444',
+                  fontSize: '13px',
+                  fontFamily: "'Manrope', sans-serif",
+                  borderRadius: '8px',
+                  whiteSpace: 'nowrap',
+                  animation: 'toast-fade 4s ease forwards',
+                  pointerEvents: 'none',
+                }}>
+                  Ошибка отправки. Попробуйте снова
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -2067,6 +2079,7 @@ export function ResultsScreen({ results, answers, onRestart }) {
     telegramSent.current = true;
 
     const utm = getUtmData();
+    const host = window.location.hostname;
 
     sendTelegramEvent({
       action: 'send',
@@ -2075,7 +2088,8 @@ export function ResultsScreen({ results, answers, onRestart }) {
       results,
       utm,
       bonusData: null,
-      auditClicked: false
+      auditClicked: false,
+      hostname: host
     }).then(data => {
       if (data.message_id) {
         setTelegramMessageId(data.message_id);
@@ -2095,6 +2109,7 @@ export function ResultsScreen({ results, answers, onRestart }) {
     if (!msgId) return;
 
     const utm = getUtmData();
+    const host = typeof window !== 'undefined' ? window.location.hostname : '';
 
     await sendTelegramEvent({
       action: 'edit',
@@ -2103,7 +2118,8 @@ export function ResultsScreen({ results, answers, onRestart }) {
       results,
       utm,
       bonusData: newBonusData,
-      auditClicked
+      auditClicked,
+      hostname: host
     });
   };
 
@@ -2115,6 +2131,7 @@ export function ResultsScreen({ results, answers, onRestart }) {
     if (!msgId) return;
 
     const utm = getUtmData();
+    const host = typeof window !== 'undefined' ? window.location.hostname : '';
 
     try {
       await sendTelegramEvent({
@@ -2124,7 +2141,8 @@ export function ResultsScreen({ results, answers, onRestart }) {
         results,
         utm,
         bonusData,
-        auditClicked: true
+        auditClicked: true,
+        hostname: host
       });
     } catch (err) {
       console.error('Failed to edit Telegram message (audit):', err);

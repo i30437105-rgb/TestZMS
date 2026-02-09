@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { action, message_id, answers, results, utm, bonusData, auditClicked } = body;
+    const { action, message_id, answers, results, utm, bonusData, auditClicked, hostname } = body;
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -15,7 +15,7 @@ export async function POST(request) {
       );
     }
 
-    const message = buildMessage({ answers, results, utm, bonusData, auditClicked });
+    const message = buildMessage({ answers, results, utm, bonusData, auditClicked, hostname });
 
     if (action === 'send') {
       const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -103,7 +103,7 @@ function escapeHtml(text) {
     .replace(/>/g, '&gt;');
 }
 
-function buildMessage({ answers, results, utm, bonusData, auditClicked }) {
+function buildMessage({ answers, results, utm, bonusData, auditClicked, hostname }) {
   const sections = ['Стратегия', 'Лидген', 'Продажи'];
 
   // Квалификация
@@ -115,73 +115,71 @@ function buildMessage({ answers, results, utm, bonusData, auditClicked }) {
   }
   if (answers && answers['К3']) qualLines.push(`Оборот: ${escapeHtml(answers['К3'])}`);
 
-  // Блоки результатов
-  let blockNumber = 1;
-  const blockLines = [];
+  // Зелёная и красная зоны
+  const greenBlocks = [];
+  const redBlocks = [];
   sections.forEach(section => {
-    blockLines.push(`\n<b>${section}:</b>`);
     if (results && results.sections && results.sections[section]) {
       results.sections[section].blocks.forEach(block => {
-        const icon = block.status === 'success' ? '✅' : '❌';
-        blockLines.push(`  ${blockNumber}. ${escapeHtml(block.title)} — ${icon}`);
-        blockNumber++;
+        if (block.status === 'success') {
+          greenBlocks.push(escapeHtml(block.title));
+        } else {
+          redBlocks.push(escapeHtml(block.title));
+        }
       });
     }
   });
 
+  const greenLine = greenBlocks.length > 0 ? greenBlocks.join(', ') : '—';
+  const redLine = redBlocks.length > 0 ? redBlocks.join(', ') : '—';
+
   // Секция бонусов
   let bonusSection;
   if (bonusData && bonusData.name) {
-    bonusSection = `✅ <b>БОНУСЫ ПОЛУЧЕНЫ</b>\nИмя: ${escapeHtml(bonusData.name)}\nTelegram: ${escapeHtml(bonusData.telegram)}`;
+    bonusSection = `✅ Бонусы получены\nИмя: ${escapeHtml(bonusData.name)}\nTelegram: ${escapeHtml(bonusData.telegram)}`;
   } else {
-    bonusSection = `⏳ <b>БОНУСЫ</b>\nЕщё не запрошены`;
+    bonusSection = `⏳ Бонусы — ещё не запрошены`;
   }
 
   // Секция аудита
   let auditSection;
   if (auditClicked) {
-    auditSection = `✅ <b>ЗАПИСАЛСЯ НА АУДИТ</b>`;
+    auditSection = `✅ Записался на аудит`;
   } else {
-    auditSection = `⏳ <b>АУДИТ</b>\nЕщё не записался`;
+    auditSection = `⏳ Аудит — ещё не записался`;
   }
 
-  // UTM-метки
-  const utmLines = [];
+  // UTM — компактная строка
+  const utmParts = [];
   if (utm) {
-    if (utm.source) utmLines.push(`utm_source: ${escapeHtml(utm.source)}`);
-    if (utm.medium) utmLines.push(`utm_medium: ${escapeHtml(utm.medium)}`);
-    if (utm.campaign) utmLines.push(`utm_campaign: ${escapeHtml(utm.campaign)}`);
-    if (utm.content) utmLines.push(`utm_content: ${escapeHtml(utm.content)}`);
-    if (utm.term) utmLines.push(`utm_term: ${escapeHtml(utm.term)}`);
+    if (utm.source) utmParts.push(escapeHtml(utm.source));
+    if (utm.medium) utmParts.push(escapeHtml(utm.medium));
+    if (utm.campaign) utmParts.push(escapeHtml(utm.campaign));
   }
-  const utmText = utmLines.length > 0 ? utmLines.join('\n') : 'Прямой заход';
+  const utmText = utmParts.length > 0 ? utmParts.join(' / ') : 'Прямой заход';
 
+  const siteText = hostname ? escapeHtml(hostname) : '—';
   const now = new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
 
   return `🎯 <b>Новый лид — Тест ZMS</b>
 
-━━━━━━━━━━━━━━━━━━━━━━
-
-✅ <b>ТЕСТ ПРОЙДЕН</b>
-
-📋 <b>Квалификация:</b>
 ${qualLines.join('\n')}
 
-📍 <b>Результаты по блокам:</b>
-${blockLines.join('\n')}
+<b>Зелёная зона:</b>
+${greenLine}
 
-━━━━━━━━━━━━━━━━━━━━━━
+<b>Красная зона:</b>
+${redLine}
+
+* * *
 
 ${bonusSection}
 
-━━━━━━━━━━━━━━━━━━━━━━
-
 ${auditSection}
 
-━━━━━━━━━━━━━━━━━━━━━━
+* * *
 
-🔎 <b>Источник трафика:</b>
-${utmText}
-
+🔎 Источник: ${utmText}
+🌐 Сайт: ${siteText}
 ⏰ ${now}`;
 }
