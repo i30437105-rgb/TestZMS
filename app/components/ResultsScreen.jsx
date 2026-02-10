@@ -2456,9 +2456,9 @@ export function ResultsScreen({ results, answers, onRestart }) {
             alignItems: 'center',
             gap: isMobile ? 6 : 8,
           }}>
-            <a href="#" style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, fontWeight: 400, color: '#7a7f8a', textDecoration: 'none' }}>Политика конфиденциальности</a>
+            <a href="/privacy" style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, fontWeight: 400, color: '#7a7f8a', textDecoration: 'none' }}>Политика конфиденциальности</a>
             {!isMobile && <span style={{ color: '#7a7f8a', fontSize: 13 }}>·</span>}
-            <a href="#" style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, fontWeight: 400, color: '#7a7f8a', textDecoration: 'none' }}>Оферта</a>
+            <a href="/offer" style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, fontWeight: 400, color: '#7a7f8a', textDecoration: 'none' }}>Оферта</a>
           </div>
 
           {/* Копирайт */}

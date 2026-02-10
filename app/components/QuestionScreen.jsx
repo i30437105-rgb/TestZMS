@@ -392,10 +392,14 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
               </button>
             ))}
             {question.allowCustom && (
-              <input
-                type="text"
+              <textarea
+                rows={1}
                 value={customOption}
-                onChange={(e) => setCustomOption(e.target.value)}
+                onChange={(e) => {
+                  setCustomOption(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = e.target.scrollHeight + 'px';
+                }}
                 placeholder="Напишите свой вариант..."
                 onFocus={(e) => {
                   if (isMobile) {
@@ -406,8 +410,9 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
                 }}
                 style={{
                   minHeight: '44px',
+                  maxHeight: isMobile ? '120px' : '200px',
                   padding: isMobile ? '12px 16px' : '14px 18px',
-                  fontSize: '14px',
+                  fontSize: '16px',
                   fontFamily: "'Manrope', sans-serif",
                   background: '#ffffff',
                   border: '1px solid #d1d5db',
@@ -415,7 +420,9 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
                   color: '#1a1a2e',
                   outline: 'none',
                   boxSizing: 'border-box',
-                  width: '100%'
+                  width: '100%',
+                  resize: 'none',
+                  overflow: 'auto'
                 }}
               />
             )}
