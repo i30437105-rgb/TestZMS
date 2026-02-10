@@ -310,11 +310,23 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
         {question.type === 'text' && (
           <textarea
             value={textAnswer}
-            onChange={(e) => setTextAnswer(e.target.value)}
+            onChange={(e) => {
+              setTextAnswer(e.target.value);
+              e.target.style.height = 'auto';
+              e.target.style.height = e.target.scrollHeight + 'px';
+            }}
             placeholder={question.placeholder}
+            onFocus={(e) => {
+              if (isMobile) {
+                setTimeout(() => {
+                  e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+              }
+            }}
             style={{
               width: '100%',
               minHeight: isMobile ? '100px' : '120px',
+              maxHeight: isMobile ? '200px' : '300px',
               padding: isMobile ? '14px 16px' : '16px 20px',
               fontSize: '16px',
               fontFamily: "'Manrope', sans-serif",
@@ -323,7 +335,8 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
               borderRadius: '12px',
               color: '#1a1a2e',
               outline: 'none',
-              resize: 'vertical',
+              resize: 'none',
+              overflow: 'auto',
               marginBottom: '24px',
               boxSizing: 'border-box'
             }}
@@ -384,6 +397,13 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
                 value={customOption}
                 onChange={(e) => setCustomOption(e.target.value)}
                 placeholder="Напишите свой вариант..."
+                onFocus={(e) => {
+                  if (isMobile) {
+                    setTimeout(() => {
+                      e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                  }
+                }}
                 style={{
                   minHeight: '44px',
                   padding: isMobile ? '12px 16px' : '14px 18px',
@@ -394,7 +414,8 @@ export function QualificationQuestion({ question, questionNumber, totalQuestions
                   borderRadius: '10px',
                   color: '#1a1a2e',
                   outline: 'none',
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  width: '100%'
                 }}
               />
             )}
