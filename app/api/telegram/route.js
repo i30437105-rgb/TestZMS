@@ -136,7 +136,7 @@ function buildMessage({ answers, results, utm, bonusData, auditClicked, hostname
   // Секция бонусов
   let bonusSection;
   if (bonusData && bonusData.name) {
-    bonusSection = `✅ Бонусы получены\nИмя: ${escapeHtml(bonusData.name)}\nTelegram: ${escapeHtml(bonusData.telegram)}`;
+    bonusSection = `✅ Бонусы получены\nИмя: ${escapeHtml(bonusData.name)}\nТелефон: ${escapeHtml(bonusData.phone)}`;
   } else {
     bonusSection = `⏳ Бонусы — ещё не запрошены`;
   }

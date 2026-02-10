@@ -1350,7 +1350,7 @@ function CareerSection({ isMobile, onAuditClick }) {
                   letterSpacing: isMobile ? '-0.5px' : '-1px',
                   marginTop: '-2px',
                 }}>
-                  вместо <span style={{ textDecoration: 'line-through' }}>7 000 ₽</span>
+                  вместо <span style={{ textDecoration: 'line-through' }}>15 000 ₽</span>
                 </div>
               </div>
 
@@ -1400,20 +1400,39 @@ function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
   const isTablet = typeof window !== 'undefined' && window.innerWidth > 768 && window.innerWidth <= 1100;
   const [hoveredBtn, setHoveredBtn] = useState(null);
   const [name, setName] = useState('');
-  const [telegram, setTelegram] = useState('');
+  const [phone, setPhone] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errors, setErrors] = useState({});
   const [formWarning, setFormWarning] = useState(false);
   const [bonusSent, setBonusSent] = useState(false);
 
+  const formatPhone = (value) => {
+    const digits = value.replace(/\D/g, '');
+    let d = digits;
+    if (d.startsWith('8')) d = '7' + d.slice(1);
+    if (!d.startsWith('7')) d = '7' + d;
+    d = d.slice(0, 11);
+    let result = '+7';
+    if (d.length > 1) result += ' (' + d.slice(1, 4);
+    if (d.length > 4) result += ') ' + d.slice(4, 7);
+    if (d.length > 7) result += '-' + d.slice(7, 9);
+    if (d.length > 9) result += '-' + d.slice(9, 11);
+    return result;
+  };
+
+  const getRawPhone = (formatted) => {
+    return formatted.replace(/\D/g, '');
+  };
+
   const validateForm = () => {
     const newErrors = {};
     if (!name || name.trim().length < 2) {
       newErrors.name = 'Введите имя (минимум 2 символа)';
     }
-    if (!telegram || telegram.trim().length < 2) {
-      newErrors.telegram = 'Введите никнейм Telegram';
+    const digits = getRawPhone(phone);
+    if (digits.length !== 11) {
+      newErrors.phone = 'Введите номер телефона полностью';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -1426,7 +1445,7 @@ function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
     setErrors({});
     try {
       if (onBonusSubmit) {
-        await onBonusSubmit(name.trim(), telegram.trim());
+        await onBonusSubmit(name.trim(), phone.trim());
       }
       setBonusSent(true);
       // TODO: заменить на ссылку Telegram-бота
@@ -1714,38 +1733,44 @@ function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
 
               <div>
                 <input
-                  type="text"
-                  placeholder="Никнейм Telegram *"
-                  value={telegram}
+                  type="tel"
+                  placeholder="Телефон *"
+                  value={phone}
                   onChange={(e) => {
-                    setTelegram(e.target.value);
-                    if (errors.telegram) setErrors({...errors, telegram: null});
+                    setPhone(formatPhone(e.target.value));
+                    if (errors.phone) setErrors({...errors, phone: null});
                   }}
-                  aria-label="Введите никнейм Telegram"
+                  onFocus={(e) => {
+                    if (!phone) setPhone('+7');
+                    e.target.style.outline = '2px solid #c8f542'; e.target.style.outlineOffset = '2px';
+                  }}
+                  onBlur={(e) => {
+                    if (phone === '+7') setPhone('');
+                    e.target.style.outline = 'none';
+                  }}
+                  aria-label="Введите номер телефона"
                   aria-required="true"
                   style={{
                     width: '100%',
                     padding: isMobile ? '16px 20px' : '14px 18px',
                     fontSize: isMobile ? '16px' : '15px',
                     background: '#fff',
-                    border: errors.telegram ? '2px solid #ef4444' : '1px solid #e5e5e5',
+                    border: errors.phone ? '2px solid #ef4444' : '1px solid #e5e5e5',
                     borderRadius: '10px',
                     color: '#1a1a2e',
                     outline: 'none',
                     fontFamily: "'Manrope', sans-serif",
                     boxSizing: 'border-box',
                   }}
-                  onFocus={(e) => { e.target.style.outline = '2px solid #c8f542'; e.target.style.outlineOffset = '2px'; }}
-                  onBlur={(e) => { e.target.style.outline = 'none'; }}
                 />
-                {errors.telegram && (
-                  <div style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }} role="alert">{errors.telegram}</div>
+                {errors.phone && (
+                  <div style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }} role="alert">{errors.phone}</div>
                 )}
               </div>
 
               <button
                 onClick={() => {
-                  if (!name.trim() || !telegram.trim()) {
+                  if (!name.trim() || getRawPhone(phone).length !== 11) {
                     setFormWarning(true);
                     setTimeout(() => setFormWarning(false), 3000);
                     return;
@@ -2101,8 +2126,8 @@ export function ResultsScreen({ results, answers, onRestart }) {
   }, []);
 
   // Обработчик отправки бонусной формы
-  const handleBonusSubmit = async (name, telegram) => {
-    const newBonusData = { name, telegram };
+  const handleBonusSubmit = async (name, phone) => {
+    const newBonusData = { name, phone };
     setBonusData(newBonusData);
 
     const msgId = telegramMessageId || Number(sessionStorage.getItem('zms_message_id'));
