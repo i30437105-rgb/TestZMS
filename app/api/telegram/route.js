@@ -144,9 +144,9 @@ function buildMessage({ answers, results, utm, bonusData, auditClicked, hostname
   // Секция аудита
   let auditSection;
   if (auditClicked) {
-    auditSection = `✅ Записался на аудит`;
+    auditSection = `✅ Перешёл на сайт аудита`;
   } else {
-    auditSection = `⏳ Аудит — ещё не записался`;
+    auditSection = `⏳ Аудит — не переходил`;
   }
 
   // UTM — компактная строка
