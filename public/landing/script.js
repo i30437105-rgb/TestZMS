@@ -213,20 +213,57 @@
 })();
 
 /* ============================================
-   Video Play — клик по кнопке запускает видео
-   поверх баннера (баннер остаётся под iframe)
+   Video Play — модальное окно с видео
    ============================================ */
 (function() {
     var playBtn = document.getElementById('videoPlayBtn');
     var banner = document.getElementById('videoBanner');
-    if (!playBtn || !banner) return;
+    if (!playBtn && !banner) return;
 
-    playBtn.addEventListener('click', function() {
+    function openVideoModal() {
+        var overlay = document.createElement('div');
+        overlay.className = 'video-modal-overlay';
+
+        var wrap = document.createElement('div');
+        wrap.className = 'video-modal-wrap';
+
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'video-modal-close';
+        closeBtn.innerHTML = '&times;';
+
         var iframe = document.createElement('iframe');
-        iframe.src = 'https://kinescope.io/embed/fFZxUuAWGXbfJokqwomNZT?autoplay=1';
+        iframe.src = 'https://kinescope.io/embed/fFZxUuAWGXbfJokqwomNZT?autoplay=1&quality=720p';
         iframe.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;';
         iframe.frameBorder = '0';
         iframe.allowFullscreen = true;
-        banner.appendChild(iframe);
+
+        wrap.appendChild(closeBtn);
+        wrap.appendChild(iframe);
+        overlay.appendChild(wrap);
+        document.body.appendChild(overlay);
+
+        document.body.style.overflow = 'hidden';
+
+        function close() {
+            iframe.src = '';
+            document.body.removeChild(overlay);
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', close);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) close();
+        });
+        document.addEventListener('keydown', function handler(e) {
+            if (e.key === 'Escape') {
+                close();
+                document.removeEventListener('keydown', handler);
+            }
+        });
+    }
+
+    if (playBtn) playBtn.addEventListener('click', openVideoModal);
+    if (banner) banner.addEventListener('click', function(e) {
+        if (e.target !== playBtn && !playBtn.contains(e.target)) openVideoModal();
     });
 })();

@@ -639,6 +639,7 @@ a {
     border-radius: 16px;
     overflow: hidden;
     position: relative;
+    cursor: pointer;
 }
 
 .quote-card-banner img {
@@ -649,14 +650,62 @@ a {
     filter: grayscale(1) brightness(0.7) contrast(1.2);
 }
 
-.quote-card-banner iframe {
-    position: absolute;
+/* Видео-модалка */
+.video-modal-overlay {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.25s ease;
+}
+
+.video-modal-wrap {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+}
+
+.video-modal-wrap iframe {
+    width: 100%;
+    height: 100%;
     border: 0;
-    z-index: 2;
+    display: block;
+}
+
+.video-modal-close {
+    position: absolute;
+    top: -44px;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.video-modal-close:hover {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .video-overlay {
