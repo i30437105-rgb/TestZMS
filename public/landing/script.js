@@ -211,3 +211,22 @@
         }
     });
 })();
+
+/* ============================================
+   Video Play — клик по кнопке запускает видео
+   поверх баннера (баннер остаётся под iframe)
+   ============================================ */
+(function() {
+    var playBtn = document.getElementById('videoPlayBtn');
+    var banner = document.getElementById('videoBanner');
+    if (!playBtn || !banner) return;
+
+    playBtn.addEventListener('click', function() {
+        var iframe = document.createElement('iframe');
+        iframe.src = 'https://kinescope.io/embed/fFZxUuAWGXbfJokqwomNZT?autoplay=1';
+        iframe.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;';
+        iframe.frameBorder = '0';
+        iframe.allowFullscreen = true;
+        banner.appendChild(iframe);
+    });
+})();
