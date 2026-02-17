@@ -361,6 +361,8 @@ Hover: translateY(-6px) + усиление тени
 | 10.02.2026 | QuestionScreen | Мобайл: custom input К2 — input → textarea rows=1 с auto-grow, fontSize 16px (убирает iOS zoom) | Утверждено |
 | 10.02.2026 | Юридические документы | Добавлены /privacy (политика конфиденциальности) и /offer (публичная оферта) — ИП Добрусина М.В. | Утверждено |
 | 10.02.2026 | Landing + ResultsScreen | Ссылки в подвале: href="#" → /privacy и /offer | Утверждено |
+| 17.02.2026 | Landing | Видео Kinescope: клик по баннеру → модальное окно с видео (quality=720p, autoplay). Баннер (фото + overlay) без изменений | Утверждено |
+| 17.02.2026 | ResultsScreen | Ссылка бонусов: t.me/metodzms_bot → t.me/dobrusin_promarketing_bot?start=bonuses | Утверждено |
 
 ---
 
@@ -380,5 +382,5 @@ Hover: translateY(-6px) + усиление тени
 
 ---
 
-**Последнее обновление:** 10.02.2026 (телефон вместо Telegram, цена 15000, фикс мобильного ввода, юрдоки /privacy + /offer, ссылки в подвале)
-**Версия лендинга:** v54
+**Последнее обновление:** 17.02.2026 (видео Kinescope в модалке 720p, ссылка Telegram-бота для бонусов)
+**Версия лендинга:** v55
