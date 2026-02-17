@@ -649,6 +649,13 @@ a {
     filter: grayscale(1) brightness(0.7) contrast(1.2);
 }
 
+.quote-card-banner iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
 .video-overlay {
     position: absolute;
     top: 30px;

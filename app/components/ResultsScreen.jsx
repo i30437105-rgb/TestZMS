@@ -1448,8 +1448,7 @@ function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
         await onBonusSubmit(name.trim(), phone.trim());
       }
       setBonusSent(true);
-      // TODO: заменить на ссылку Telegram-бота
-      window.open('https://t.me/metodzms_bot', '_blank');
+      window.open('https://t.me/dobrusin_promarketing_bot?start=bonuses', '_blank');
     } catch (error) {
       console.error('Ошибка отправки в Telegram:', error);
       setSubmitStatus('error');
