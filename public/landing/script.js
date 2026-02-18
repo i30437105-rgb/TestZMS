@@ -267,3 +267,24 @@
         if (e.target !== playBtn && !playBtn.contains(e.target)) openVideoModal();
     });
 })();
+
+/* ============================================
+   Яндекс.Метрика — цели на кнопках лендинга
+   ============================================ */
+(function() {
+    // Цель 1: projti-krash-test — все кнопки «Пройти краш-тест»
+    document.querySelectorAll('.btn-primary').forEach(function(btn) {
+        var text = btn.textContent.trim();
+        if (text === 'Пройти краш-тест') {
+            btn.addEventListener('click', function() {
+                if (typeof ym !== 'undefined') ym(103707469, 'reachGoal', 'projti-krash-test');
+            });
+        }
+        // Цель 2: zabrat-bonusy — все кнопки «Забрать бонусы»
+        if (text === 'Забрать бонусы') {
+            btn.addEventListener('click', function() {
+                if (typeof ym !== 'undefined') ym(103707469, 'reachGoal', 'zabrat-bonusy');
+            });
+        }
+    });
+})();

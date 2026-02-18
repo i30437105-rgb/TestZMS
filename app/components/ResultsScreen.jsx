@@ -996,6 +996,7 @@ function CareerSection({ isMobile, onAuditClick }) {
       setExpiredToast('Ваше предложение уже недействительно');
       setTimeout(() => setExpiredToast(null), 3500);
     } else {
+      if (typeof window !== 'undefined' && window.ym) window.ym(103707469, 'reachGoal', 'zapisatsya-na-audit');
       window.open('https://audit.metodzms.ru/?utm_source=test&utm_medium=results&utm_campaign=audit&promo=DOBRUSIN', '_blank');
       if (onAuditClick) onAuditClick();
     }
@@ -1448,6 +1449,7 @@ function LandingStepsSection({ isMobile, results, answers, onBonusSubmit }) {
         await onBonusSubmit(name.trim(), phone.trim());
       }
       setBonusSent(true);
+      if (typeof window !== 'undefined' && window.ym) window.ym(103707469, 'reachGoal', 'zabrat-bonusy-poddomen');
       window.open('https://t.me/dobrusin_promarketing_bot?start=bonuses', '_blank');
     } catch (error) {
       console.error('Ошибка отправки в Telegram:', error);

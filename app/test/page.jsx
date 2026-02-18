@@ -19,6 +19,7 @@ export default function MarketingAudit() {
   const totalQuestions = allQuestions.length;
 
   const handleStart = () => {
+    if (typeof window !== 'undefined' && window.ym) window.ym(103707469, 'reachGoal', 'nachat-audit');
     setScreen('testing');
     setCurrentQuestionIndex(0);
     setAnswers({});
@@ -33,6 +34,12 @@ export default function MarketingAudit() {
 
     // Проверяем достижение чекпоинта (кроме первого)
     const reachedCheckpoint = checkpoints.find(c => c.question === currentQNum && currentQNum > 1);
+
+    // Яндекс.Метрика — цели на чекпоинтах
+    if (reachedCheckpoint && typeof window !== 'undefined' && window.ym) {
+      if (reachedCheckpoint.title === 'Стойкий основатель') window.ym(103707469, 'reachGoal', 'test-stojkij-osnovatel');
+      if (reachedCheckpoint.title === 'Железная воля') window.ym(103707469, 'reachGoal', 'test-zheleznaya-volya');
+    }
 
     if (nextIndex < totalQuestions) {
       setJustReachedCheckpoint(reachedCheckpoint || null);

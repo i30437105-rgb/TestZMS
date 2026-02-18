@@ -364,6 +364,7 @@ Hover: translateY(-6px) + усиление тени
 | 17.02.2026 | Landing | Видео Kinescope: клик по баннеру → модальное окно с видео (quality=720p, autoplay). Баннер (фото + overlay) без изменений | Утверждено |
 | 17.02.2026 | ResultsScreen | Ссылка бонусов: t.me/metodzms_bot → t.me/dobrusin_promarketing_bot?start=bonuses | Утверждено |
 | 18.02.2026 | Все страницы | Яндекс.Метрика: счётчик 103707469 (webvisor, clickmap, accurateTrackBounce) — landing, layout.jsx, privacy, offer | Утверждено |
+| 18.02.2026 | Все страницы | Яндекс.Метрика цели: 8 целей reachGoal (projti-krash-test, zabrat-bonusy, nachat-audit, test-stojkij-osnovatel, test-zheleznaya-volya, test-smotret-rezultaty, zapisatsya-na-audit, zabrat-bonusy-poddomen) | Утверждено |
 
 ---
 
@@ -383,5 +384,5 @@ Hover: translateY(-6px) + усиление тени
 
 ---
 
-**Последнее обновление:** 18.02.2026 (Яндекс.Метрика 103707469 на всех страницах)
-**Версия лендинга:** v56
+**Последнее обновление:** 18.02.2026 (Яндекс.Метрика: счётчик + 8 целей reachGoal)
+**Версия лендинга:** v57
