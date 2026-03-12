@@ -19,13 +19,21 @@ export async function POST(request) {
     const message = buildMessage({ answers, results, utm, bonusData, auditClicked, hostname });
 
     // Отправка в группу (возвращает промис, ошибки не ломают основной поток)
-    const sendToGroup = (text) => {
-      if (!groupChatId) return Promise.resolve();
-      return fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: groupChatId, text, parse_mode: 'HTML' })
-      }).catch(err => console.error('Telegram group error:', err));
+    const sendToGroup = async (text) => {
+      if (!groupChatId) return;
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: groupChatId, text, parse_mode: 'HTML' })
+        });
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          console.error('Telegram group send failed:', { status: res.status, error: errData });
+        }
+      } catch (err) {
+        console.error('Telegram group fetch error:', err);
+      }
     };
 
     if (action === 'send') {
