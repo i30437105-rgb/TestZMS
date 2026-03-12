@@ -18,29 +18,30 @@ export async function POST(request) {
 
     const message = buildMessage({ answers, results, utm, bonusData, auditClicked, hostname });
 
-    // Вспомогательная функция: отправить в группу (не блокирует основной ответ)
-    const sendToGroup = (text, method = 'sendMessage', extraParams = {}) => {
-      if (!groupChatId) return;
-      fetch(`https://api.telegram.org/bot${botToken}/${method}`, {
+    // Отправка в группу (возвращает промис, ошибки не ломают основной поток)
+    const sendToGroup = (text) => {
+      if (!groupChatId) return Promise.resolve();
+      return fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: groupChatId, text, parse_mode: 'HTML', ...extraParams })
+        body: JSON.stringify({ chat_id: groupChatId, text, parse_mode: 'HTML' })
       }).catch(err => console.error('Telegram group error:', err));
     };
 
     if (action === 'send') {
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-          parse_mode: 'HTML'
-        })
-      });
-
-      // Дублируем в группу
-      sendToGroup(message);
+      // Отправляем в личку и группу параллельно
+      const [response] = await Promise.all([
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'HTML'
+          })
+        }),
+        sendToGroup(message)
+      ]);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -69,19 +70,20 @@ export async function POST(request) {
         );
       }
 
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/editMessageText`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          message_id: message_id,
-          text: message,
-          parse_mode: 'HTML'
-        })
-      });
-
-      // В группу отправляем новое сообщение (editMessage не работает без group_message_id)
-      sendToGroup(message);
+      // Редактируем в личке + дублируем новым сообщением в группу
+      const [response] = await Promise.all([
+        fetch(`https://api.telegram.org/bot${botToken}/editMessageText`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            message_id: message_id,
+            text: message,
+            parse_mode: 'HTML'
+          })
+        }),
+        sendToGroup(message)
+      ]);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
