@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { action, message_id, answers, results, utm, bonusData, auditClicked, hostname } = body;
+    const { action, message_id, group_message_id, answers, results, utm, bonusData, auditClicked, hostname } = body;
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -18,27 +18,36 @@ export async function POST(request) {
 
     const message = buildMessage({ answers, results, utm, bonusData, auditClicked, hostname });
 
-    // Отправка в группу (возвращает промис, ошибки не ломают основной поток)
-    const sendToGroup = async (text) => {
-      if (!groupChatId) return;
+    // Отправка/редактирование в группе (ошибки не ломают основной поток)
+    const groupRequest = async (text, editMsgId) => {
+      if (!groupChatId) return null;
       try {
-        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        const isEdit = !!editMsgId;
+        const endpoint = isEdit ? 'editMessageText' : 'sendMessage';
+        const payload = isEdit
+          ? { chat_id: groupChatId, message_id: editMsgId, text, parse_mode: 'HTML' }
+          : { chat_id: groupChatId, text, parse_mode: 'HTML' };
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/${endpoint}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: groupChatId, text, parse_mode: 'HTML' })
+          body: JSON.stringify(payload)
         });
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
-          console.error('Telegram group send failed:', { status: res.status, error: errData });
+          console.error(`Telegram group ${endpoint} failed:`, { status: res.status, error: errData });
+          return null;
         }
+        const data = await res.json();
+        return data.result?.message_id || null;
       } catch (err) {
         console.error('Telegram group fetch error:', err);
+        return null;
       }
     };
 
     if (action === 'send') {
       // Отправляем в личку и группу параллельно
-      const [response] = await Promise.all([
+      const [response, groupMsgId] = await Promise.all([
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -48,7 +57,7 @@ export async function POST(request) {
             parse_mode: 'HTML'
           })
         }),
-        sendToGroup(message)
+        groupRequest(message, null)
       ]);
 
       if (!response.ok) {
@@ -67,7 +76,8 @@ export async function POST(request) {
       const data = await response.json();
       return NextResponse.json({
         success: true,
-        message_id: data.result.message_id
+        message_id: data.result.message_id,
+        group_message_id: groupMsgId
       });
 
     } else if (action === 'edit') {
@@ -78,7 +88,7 @@ export async function POST(request) {
         );
       }
 
-      // Редактируем в личке + дублируем новым сообщением в группу
+      // Редактируем в личке и в группе параллельно
       const [response] = await Promise.all([
         fetch(`https://api.telegram.org/bot${botToken}/editMessageText`, {
           method: 'POST',
@@ -90,7 +100,7 @@ export async function POST(request) {
             parse_mode: 'HTML'
           })
         }),
-        sendToGroup(message)
+        groupRequest(message, group_message_id)
       ]);
 
       if (!response.ok) {

@@ -177,11 +177,11 @@ function getUtmData() {
   };
 }
 
-async function sendTelegramEvent({ action, message_id, answers, results, utm, bonusData, auditClicked, hostname }) {
+async function sendTelegramEvent({ action, message_id, group_message_id, answers, results, utm, bonusData, auditClicked, hostname }) {
   const response = await fetch('/api/telegram', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action, message_id, answers, results, utm, bonusData, auditClicked, hostname })
+    body: JSON.stringify({ action, message_id, group_message_id, answers, results, utm, bonusData, auditClicked, hostname })
   });
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
@@ -2080,6 +2080,7 @@ export function ResultsScreen({ results, answers, onRestart }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [telegramMessageId, setTelegramMessageId] = useState(null);
+  const [groupMessageId, setGroupMessageId] = useState(null);
   const [bonusData, setBonusData] = useState(null);
   const [auditClicked, setAuditClicked] = useState(false);
   const telegramSent = useRef(false);
@@ -2121,6 +2122,10 @@ export function ResultsScreen({ results, answers, onRestart }) {
         setTelegramMessageId(data.message_id);
         try { sessionStorage.setItem('zms_message_id', String(data.message_id)); } catch(e) {}
       }
+      if (data.group_message_id) {
+        setGroupMessageId(data.group_message_id);
+        try { sessionStorage.setItem('zms_group_message_id', String(data.group_message_id)); } catch(e) {}
+      }
     }).catch(err => {
       console.error('Failed to send initial Telegram message:', err);
     });
@@ -2134,12 +2139,14 @@ export function ResultsScreen({ results, answers, onRestart }) {
     const msgId = telegramMessageId || Number(sessionStorage.getItem('zms_message_id'));
     if (!msgId) return;
 
+    const grpId = groupMessageId || Number(sessionStorage.getItem('zms_group_message_id')) || null;
     const utm = getUtmData();
     const host = typeof window !== 'undefined' ? window.location.hostname : '';
 
     await sendTelegramEvent({
       action: 'edit',
       message_id: msgId,
+      group_message_id: grpId,
       answers,
       results,
       utm,
@@ -2156,6 +2163,7 @@ export function ResultsScreen({ results, answers, onRestart }) {
     const msgId = telegramMessageId || Number(sessionStorage.getItem('zms_message_id'));
     if (!msgId) return;
 
+    const grpId = groupMessageId || Number(sessionStorage.getItem('zms_group_message_id')) || null;
     const utm = getUtmData();
     const host = typeof window !== 'undefined' ? window.location.hostname : '';
 
@@ -2163,6 +2171,7 @@ export function ResultsScreen({ results, answers, onRestart }) {
       await sendTelegramEvent({
         action: 'edit',
         message_id: msgId,
+        group_message_id: grpId,
         answers,
         results,
         utm,
