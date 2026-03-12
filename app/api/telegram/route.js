@@ -7,6 +7,7 @@ export async function POST(request) {
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
+    const groupChatId = process.env.TELEGRAM_GROUP_CHAT_ID;
 
     if (!botToken || !chatId) {
       return NextResponse.json(
@@ -16,6 +17,16 @@ export async function POST(request) {
     }
 
     const message = buildMessage({ answers, results, utm, bonusData, auditClicked, hostname });
+
+    // Вспомогательная функция: отправить в группу (не блокирует основной ответ)
+    const sendToGroup = (text, method = 'sendMessage', extraParams = {}) => {
+      if (!groupChatId) return;
+      fetch(`https://api.telegram.org/bot${botToken}/${method}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: groupChatId, text, parse_mode: 'HTML', ...extraParams })
+      }).catch(err => console.error('Telegram group error:', err));
+    };
 
     if (action === 'send') {
       const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -27,6 +38,9 @@ export async function POST(request) {
           parse_mode: 'HTML'
         })
       });
+
+      // Дублируем в группу
+      sendToGroup(message);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -65,6 +79,9 @@ export async function POST(request) {
           parse_mode: 'HTML'
         })
       });
+
+      // В группу отправляем новое сообщение (editMessage не работает без group_message_id)
+      sendToGroup(message);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
